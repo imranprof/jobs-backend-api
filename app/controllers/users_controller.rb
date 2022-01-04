@@ -24,14 +24,18 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      render json: @user
+      render json: @user, status: :ok
     else
       render json: @user.errors, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @user.destroy
+    if @user.destroy
+      render json: { message: 'User deleted successfully' }, status: :ok
+    else
+      render json: @user.errors, status: :unprocessable_entity
+    end
   end
 
   private
