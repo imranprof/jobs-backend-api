@@ -2,8 +2,8 @@
 
 module Api
   module V1
-    class ApiController < ApplicationController
-      def seek_right_jobs
+    class DashboardController < ApplicationController
+      def index
         render json: { message: "Welcome #{current_user.email}" }
       end
     end
