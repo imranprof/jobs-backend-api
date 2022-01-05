@@ -13,7 +13,7 @@ class AuthenticationController < ApplicationController
   end
 
   def sign_out
-    command = current_user.update_columns(token: '')
+    command = current_user.update_column(token, '')
     if command
       render json: { sign_out: command }
     else
