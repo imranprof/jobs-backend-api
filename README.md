@@ -13,7 +13,17 @@ Make sure you have installed `ruby-3.0.3` and have `bundler`
 ### Running the API App
 1. Install dependency by running `bundle install`
 
-2. Start the `seekrightjobs_back` at default port 3000 by running `rails s`
+2. Create database.yml file using the following command
+    ```
+    cp config/database.sample.yml config/database.yml
+    ```
+3. Create and migrate database
+   ```
+   rake db:create
+   rake db:migrate
+   ```
+
+4. Start the `seekrightjobs_back` server at default port 3000 by running `rails s`
 
 ### Create User & authenticate using `auth_token`
 #### 1. Create a user
