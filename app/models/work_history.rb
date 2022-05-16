@@ -1,0 +1,2 @@
+class WorkHistory < ApplicationRecord
+end
