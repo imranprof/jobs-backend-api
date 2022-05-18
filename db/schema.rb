@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_16_113445) do
+ActiveRecord::Schema.define(version: 2022_05_18_150204) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,14 @@ ActiveRecord::Schema.define(version: 2022_05_16_113445) do
     t.index ["user_id"], name: "index_education_histories_on_user_id"
   end
 
+  create_table "expertises", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_profile_id", null: false
+    t.index ["user_profile_id"], name: "index_expertises_on_user_profile_id"
+  end
+
   create_table "features", force: :cascade do |t|
     t.string "title", null: false
     t.text "description", null: false
@@ -93,6 +101,16 @@ ActiveRecord::Schema.define(version: 2022_05_16_113445) do
     t.string "title", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "social_links", force: :cascade do |t|
+    t.string "facebook_url"
+    t.string "github_url"
+    t.string "linkedin_url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_profile_id", null: false
+    t.index ["user_profile_id"], name: "index_social_links_on_user_profile_id"
   end
 
   create_table "user_contacts", force: :cascade do |t|
@@ -159,7 +177,9 @@ ActiveRecord::Schema.define(version: 2022_05_16_113445) do
 
   add_foreign_key "blogs", "users"
   add_foreign_key "education_histories", "users"
+  add_foreign_key "expertises", "user_profiles"
   add_foreign_key "projects", "users"
+  add_foreign_key "social_links", "user_profiles"
   add_foreign_key "user_contacts", "users"
   add_foreign_key "user_contacts", "users", column: "messenger_id"
   add_foreign_key "user_profiles", "users"
