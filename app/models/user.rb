@@ -8,11 +8,11 @@ class User < ApplicationRecord
 
   has_one :user_profile
 
-  has_many     :user_contacts
-  has_many     :users_skills
-  has_many     :blogs
-  has_many     :features
-  has_many     :projects
-  has_many     :education_histories
-  has_many     :work_histories
+  has_many :user_contacts
+  has_many :users_skills
+  has_many :blogs
+  has_many :features
+  has_many :projects
+  has_many :education_histories
+  has_many :work_histories
 end
