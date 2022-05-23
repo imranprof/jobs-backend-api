@@ -10,10 +10,136 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_03_123319) do
+ActiveRecord::Schema.define(version: 2022_05_23_155528) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "addresses", force: :cascade do |t|
+    t.string "address_1", null: false
+    t.string "address_2", null: false
+    t.string "city", null: false
+    t.string "state", null: false
+    t.string "zip_code", null: false
+    t.string "country", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "blogs", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "body", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "reading_time", null: false
+    t.index ["user_id"], name: "index_blogs_on_user_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.text "body", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "education_histories", force: :cascade do |t|
+    t.string "institution", null: false
+    t.string "degree", null: false
+    t.string "grade", null: false
+    t.text "description", null: false
+    t.datetime "start_date", precision: 6, null: false
+    t.datetime "end_date", precision: 6, null: false
+    t.boolean "currently_enrolled", null: false
+    t.boolean "visibility", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_education_histories_on_user_id"
+  end
+
+  create_table "expertises", force: :cascade do |t|
+    t.string "title", null: false
+    t.bigint "user_profile_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_profile_id"], name: "index_expertises_on_user_profile_id"
+  end
+
+  create_table "features", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description", null: false
+    t.binary "icon", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "projects", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description", null: false
+    t.text "technologies", null: false
+    t.string "live_url", null: false
+    t.string "source_url", null: false
+    t.integer "react_count", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_projects_on_user_id"
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.string "reviewer_name", null: false
+    t.string "reviewer_designation", null: false
+    t.text "description", null: false
+    t.string "reviewer_profile_url", null: false
+    t.boolean "visibility", null: false
+    t.decimal "rating", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "skills", force: :cascade do |t|
+    t.string "title", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "social_links", force: :cascade do |t|
+    t.string "facebook_url"
+    t.string "github_url"
+    t.string "linkedin_url"
+    t.bigint "user_profile_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_profile_id"], name: "index_social_links_on_user_profile_id"
+  end
+
+  create_table "user_contacts", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "phone_number", null: false
+    t.string "email", null: false
+    t.text "message", null: false
+    t.integer "user_id", null: false
+    t.integer "messenger_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "user_profiles", force: :cascade do |t|
+    t.text "headline", null: false
+    t.string "title", null: false
+    t.text "bio", null: false
+    t.string "identity_number", null: false
+    t.integer "gender", null: false
+    t.integer "religion", null: false
+    t.binary "avatar", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "designation", default: "", null: false
+    t.text "contact_info", default: "", null: false
+    t.string "contact_email"
+    t.index ["user_id"], name: "index_user_profiles_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email"
@@ -21,8 +147,47 @@ ActiveRecord::Schema.define(version: 2022_01_03_123319) do
     t.string "token"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "phone", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["token"], name: "index_users_on_token"
   end
 
+  create_table "users_skills", force: :cascade do |t|
+    t.integer "rating"
+    t.bigint "user_id", null: false
+    t.bigint "skill_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["skill_id"], name: "index_users_skills_on_skill_id"
+    t.index ["user_id"], name: "index_users_skills_on_user_id"
+  end
+
+  create_table "work_histories", force: :cascade do |t|
+    t.string "title", null: false
+    t.integer "employment_type", null: false
+    t.string "company_name", null: false
+    t.text "description", null: false
+    t.datetime "start_date", precision: 6, null: false
+    t.datetime "end_date", precision: 6, null: false
+    t.boolean "currently_employed", null: false
+    t.boolean "visibility", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_work_histories_on_user_id"
+  end
+
+  add_foreign_key "blogs", "users"
+  add_foreign_key "education_histories", "users"
+  add_foreign_key "expertises", "user_profiles"
+  add_foreign_key "projects", "users"
+  add_foreign_key "social_links", "user_profiles"
+  add_foreign_key "user_contacts", "users"
+  add_foreign_key "user_contacts", "users", column: "messenger_id"
+  add_foreign_key "user_profiles", "users"
+  add_foreign_key "users_skills", "skills"
+  add_foreign_key "users_skills", "users"
+  add_foreign_key "work_histories", "users"
 end
