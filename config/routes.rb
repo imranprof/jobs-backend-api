@@ -10,4 +10,8 @@ Rails.application.routes.draw do
       resources :dashboard, only: [:index]
     end
   end
+
+  namespace :profile do
+    get '', to: 'profiles#show'
+  end
 end
