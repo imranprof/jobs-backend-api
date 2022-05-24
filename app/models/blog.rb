@@ -1,6 +1,7 @@
 class Blog < ApplicationRecord
   belongs_to :user
   has_one_attached :image
+  has_many :blog_categories, dependent: :destroy
 
   validate :check_image_presence
   private

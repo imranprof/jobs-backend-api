@@ -14,6 +14,4 @@ class User < ApplicationRecord
   has_many :education_histories, dependent: :destroy
   has_many :work_histories, dependent: :destroy
   has_one :user_profile, dependent: :destroy
-  has_many :blog_categories, dependent: :destroy
-  has_many :project_categories, dependent: :destroy
 end

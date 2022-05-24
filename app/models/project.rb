@@ -1,6 +1,7 @@
 class Project < ApplicationRecord
   belongs_to :user
   has_one_attached :image
+  has_many :project_categories, dependent: :destroy
 
   validate :check_image_presence
 
