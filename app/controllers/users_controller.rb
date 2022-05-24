@@ -45,8 +45,6 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    password_confirmation = params[:user][:passwordConfirmation]
-    params[:user][:password_confirmation] = password_confirmation if password_confirmation.present?
-    params.require(:user).permit(:email, :password, :password_confirmation)
+    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
   end
 end
