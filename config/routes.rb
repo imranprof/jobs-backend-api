@@ -13,5 +13,7 @@ Rails.application.routes.draw do
 
   namespace :profile do
     get '', to: 'profiles#show'
+    post 'contact', to: 'profiles#create_contact'
+    get 'contacts', to: 'profiles#user_contacts'
   end
 end
