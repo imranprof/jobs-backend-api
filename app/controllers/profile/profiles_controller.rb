@@ -10,6 +10,14 @@ module Profile
       show
     end
 
+    def update
+      if @current_user.update(profile_params)
+        render json: { message: 'Profile is updated successfully' }, status: :ok
+      else
+        render json: { message: 'Failed to update profile.' }, status: :bad_request
+      end
+    end
+
     private
 
     def data
@@ -125,6 +133,12 @@ module Profile
       }
     end
 
+    def profile_params
+      params.require(:user).permit(:user_profile_attributes[:headline, :title, :bio, :identity_number, :gender,
+                                                            :religion, :designation, :contact_info, :contact_email,
+                                                            :expertises])
+    end
+
     def default_profile
       user_profile = @current_user.create_user_profile(
         headline: 'WELCOME TO MY WORLD',
@@ -146,7 +160,8 @@ module Profile
       user_profile.expertises.push('Designer')
       user_profile.expertises.push('Professional Coder')
       user_profile.save
-      user_profile.social_link.create!(facebook_url: 'facebook.com', github_url: 'github.com', linkedin_url: 'linkedin.com')
+      user_profile.create_social_link(facebook_url: 'facebook.com', github_url: 'github.com',
+                                      linkedin_url: 'linkedin.com')
       skill = Skill.create(title: 'Ruby')
       skill.icon.attach(io: File.open(Rails.root.join('app/assets/images/skill/ruby.png')),
                         filename: 'ruby.png')
@@ -162,17 +177,23 @@ module Profile
                         filename: 'python.png')
       skill.save
       UsersSkill.create!(rating: 90, user_id: @current_user.id, skill_id: skill.id)
-      feature = @current_user.features.create(title: 'business strategy', description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
+      feature = @current_user.features.create(title: 'business strategy',
+                                              description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
       feature.save
-      feature = @current_user.features.create(title: 'app development', description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
+      feature = @current_user.features.create(title: 'app development',
+                                              description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
       feature.save
-      feature = @current_user.features.create(title: 'app design', description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
+      feature = @current_user.features.create(title: 'app design',
+                                              description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
       feature.save
-      feature = @current_user.features.create(title: 'mobile app', description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
+      feature = @current_user.features.create(title: 'mobile app',
+                                              description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
       feature.save
-      feature = @current_user.features.create(title: 'CEO marketing', description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
+      feature = @current_user.features.create(title: 'CEO marketing',
+                                              description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
       feature.save
-      feature = @current_user.features.create(title: 'UI & UX design', description: 'It uses a dictionary of over 200 Latin words, combined with a handful of model sentence.')
+      feature = @current_user.features.create(title: 'UI & UX design',
+                                              description: 'It uses a dictionary of over 200 Latin words, combined with a handful of model sentence.')
       feature.save
       Category.create!(title: 'application')
       Category.create!(title: 'development')

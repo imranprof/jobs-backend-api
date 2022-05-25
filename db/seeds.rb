@@ -25,7 +25,8 @@ user_profile.avatar.attach(io: File.open(Rails.root.join('app/assets/images/defa
                            filename: 'default-avatar.png'
 )
 user_profile.save
-user_profile.social_link.create!(facebook_url: 'facebook.com', github_url: 'github.com', linkedin_url: 'linkedin.com')
+user_profile.create_social_link(facebook_url: 'facebook.com', github_url: 'github.com',
+                                       linkedin_url: 'linkedin.com')
 puts '#3: Added Default Avatar'
 
 user_profile.expertises.push('Program')
@@ -59,17 +60,23 @@ UsersSkill.create!(rating: 90, user_id: user.id, skill_id: skill.id)
 puts '#5: Added Skills'
 puts '#6: Associate Skills to User'
 
-feature = user.features.create(title: 'business strategy', description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
+feature = user.features.create(title: 'business strategy',
+                               description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
 feature.save
-feature = user.features.create(title: 'app development', description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
+feature = user.features.create(title: 'app development',
+                               description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
 feature.save
-feature = user.features.create(title: 'app design', description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
+feature = user.features.create(title: 'app design',
+                               description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
 feature.save
-feature = user.features.create(title: 'mobile app', description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
+feature = user.features.create(title: 'mobile app',
+                               description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
 feature.save
-feature = user.features.create(title: 'CEO marketing', description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
+feature = user.features.create(title: 'CEO marketing',
+                               description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
 feature.save
-feature = user.features.create(title: 'UI & UX design', description: 'It uses a dictionary of over 200 Latin words, combined with a handful of model sentence.')
+feature = user.features.create(title: 'UI & UX design',
+                               description: 'It uses a dictionary of over 200 Latin words, combined with a handful of model sentence.')
 feature.save
 puts '#7: Added Features'
 
