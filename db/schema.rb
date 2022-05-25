@@ -58,7 +58,6 @@ ActiveRecord::Schema.define(version: 2022_05_24_151438) do
     t.bigint "category_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "users"
     t.bigint "blog_id"
     t.index ["blog_id"], name: "index_blog_categories_on_blog_id"
     t.index ["category_id"], name: "index_blog_categories_on_category_id"
