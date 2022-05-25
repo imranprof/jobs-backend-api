@@ -12,8 +12,6 @@ Rails.application.routes.draw do
   end
 
   namespace :profile do
-    get '', to: 'profiles#show'
     post 'contact', to: 'profiles#create_contact'
-    get 'contacts', to: 'profiles#current_user_contacts'
   end
 end
