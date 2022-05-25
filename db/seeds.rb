@@ -39,26 +39,37 @@ skill = Skill.create(title: 'Ruby')
 skill.icon.attach(io: File.open(Rails.root.join('app/assets/images/skill/ruby.png')),
                   filename: 'ruby.png'
 )
-UsersSkill.create(rating: 100, user_id: user, skill_id: skill)
+skill.save
+UsersSkill.create!(rating: 100, user_id: user.id, skill_id: skill.id)
+
 skill = Skill.create(title: 'Javascript')
 skill.icon.attach(io: File.open(Rails.root.join('app/assets/images/skill/javascript.png')),
                   filename: 'javascript.png'
 )
-UsersSkill.create(rating: 73, user_id: user, skill_id: skill)
+skill.save
+UsersSkill.create!(rating: 73, user_id: user.id, skill_id: skill.id)
+
 skill = Skill.create(title: 'Python')
 skill.icon.attach(io: File.open(Rails.root.join('app/assets/images/skill/python.png')),
                   filename: 'python.png'
 )
-UsersSkill.create(rating: 90, user_id: user, skill_id: skill)
+skill.save
+UsersSkill.create!(rating: 90, user_id: user.id, skill_id: skill.id)
 puts '#5: Added Skills'
 puts '#6: Associate Skills to User'
 
 feature = user.features.create(title: 'business strategy', description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
+feature.save
 feature = user.features.create(title: 'app development', description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
+feature.save
 feature = user.features.create(title: 'app design', description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
+feature.save
 feature = user.features.create(title: 'mobile app', description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
+feature.save
 feature = user.features.create(title: 'CEO marketing', description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
+feature.save
 feature = user.features.create(title: 'UI & UX design', description: 'It uses a dictionary of over 200 Latin words, combined with a handful of model sentence.')
+feature.save
 puts '#7: Added Features'
 
 Category.create!(title: 'application')
@@ -72,8 +83,7 @@ project = user.projects.create(
   description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate distinctio assumenda explicabo veniam temporibus eligendi.',
   live_url: '#',
   source_url: '#',
-  react_count: 600,
-
+  react_count: 600
 )
 
 project.image.attach(io: File.open(Rails.root.join('app/assets/images/projects/portfolio-01.jpg')),
@@ -81,14 +91,14 @@ project.image.attach(io: File.open(Rails.root.join('app/assets/images/projects/p
 )
 project.save
 ProjectCategory.create!(project_id: project.id, category_id: Category.all[0].id)
+ProjectCategory.create!(project_id: project.id, category_id: Category.all[1].id)
 
 project = user.projects.create(
   title: 'The services provide for design',
   description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate distinctio assumenda explicabo veniam temporibus eligendi.',
   live_url: '#',
   source_url: '#',
-  react_count: 600,
-
+  react_count: 600
 )
 
 project.image.attach(io: File.open(Rails.root.join('app/assets/images/projects/portfolio-02.jpg')),
@@ -102,8 +112,7 @@ project = user.projects.create(
   description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate distinctio assumenda explicabo veniam temporibus eligendi.',
   live_url: '#',
   source_url: '#',
-  react_count: 750,
-
+  react_count: 750
 )
 
 project.image.attach(io: File.open(Rails.root.join('app/assets/images/projects/portfolio-03.jpg')),
@@ -117,8 +126,7 @@ project = user.projects.create(
   description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate distinctio assumenda explicabo veniam temporibus eligendi.',
   live_url: '#',
   source_url: '#',
-  react_count: 630,
-
+  react_count: 630
 )
 
 project.image.attach(io: File.open(Rails.root.join('app/assets/images/projects/portfolio-04.jpg')),
