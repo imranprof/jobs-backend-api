@@ -2,17 +2,18 @@
 module Profile
   class ProfilesController < ApplicationController
 
-    def user_contacts
-      @user_contacts = UserContact.all
+    def current_user_contacts
+      @user_contacts = UserContact.where(user_id: params[:user_id])
+      #@user_contacts = UserContact.all
       render json: @user_contacts, status: :ok
     end
 
     def create_contact
       @user_contact = UserContact.new(contact_params)
       if @user_contact.save
-        render json: @user_contact, status: :created
+        render json: { message: 'Message has been sent successfully.' }, status: :ok
       else
-        render json: @user_contact.errors, status: :unprocessable_entity
+        render json: { message: 'Sorry, something wrong' }
       end
     end
 
