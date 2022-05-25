@@ -19,7 +19,7 @@ module Profile
     private
 
     def contact_params
-      params.require(:user_contact).permit(:name, :phone_number, :email, :message, :user_id)
+      params.require(:user_contact).permit(:name, :phone_number, :email, :subject, :message, :user_id, :messenger_id)
     end
   end
 end
