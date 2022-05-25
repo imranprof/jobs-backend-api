@@ -25,6 +25,7 @@ user_profile.avatar.attach(io: File.open(Rails.root.join('app/assets/images/defa
                            filename: 'default-avatar.png'
 )
 user_profile.save
+user_profile.social_link.create!(facebook_url: 'facebook.com', github_url: 'github.com', linkedin_url: 'linkedin.com')
 puts '#3: Added Default Avatar'
 
 user_profile.expertises.push('Program')
