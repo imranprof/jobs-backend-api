@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   end
 
   namespace :profile do
-    get '', to: 'profiles#show'
+    get '', to: 'profile/profiles#show'
+    patch '', to: 'profile/profiles#update'
   end
 end
