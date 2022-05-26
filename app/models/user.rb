@@ -13,5 +13,9 @@ class User < ApplicationRecord
   has_many :projects, dependent: :destroy
   has_many :education_histories, dependent: :destroy
   has_many :work_histories, dependent: :destroy
-  has_one :user_profile, dependent: :destroy
+  has_one :user_profile, inverse_of: :user, dependent: :destroy
+  has_one :social_link, through: :user_profile
+  accepts_nested_attributes_for :user_profile, :features, :users_skills, :projects, :blogs, :education_histories, 
+                                :work_histories, reject_if: :all_blank, allow_destroy: true
+
 end

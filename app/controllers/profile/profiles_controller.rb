@@ -12,7 +12,7 @@ module Profile
 
     def update
       if @current_user.update(profile_params)
-        render json: { message: 'Profile is updated successfully' }, status: :ok
+        render json: data, status: :ok
       else
         render json: { message: 'Failed to update profile.' }, status: :bad_request
       end
@@ -101,8 +101,7 @@ module Profile
             visibility: false,
             start_date: education.start_date.strftime('%d %b, %Y'),
             end_date: education.end_date.strftime('%d %b, %Y'),
-            description: 'Contrary to popular belief. Ut tincidunt est ac dolor aliquam sodales. Phasellus sed mauris hendrerit, laoreet sem in, lobortis mauris hendrerit ante.'
-          }
+            description: 'Contrary to popular belief. Ut tincidunt est ac dolor aliquam sodales. Phasellus sed mauris hendrerit, laoreet sem in, lobortis mauris hendrerit ante.' }
         end.compact,
         skills: @current_user.users_skills.map do |users_skill|
           { id: users_skill.id, name: users_skill.skill.title, rating: users_skill.rating }
@@ -134,9 +133,26 @@ module Profile
     end
 
     def profile_params
-      params.require(:user).permit(:user_profile_attributes[:headline, :title, :bio, :identity_number, :gender,
-                                                            :religion, :designation, :contact_info, :contact_email,
-                                                            :expertises])
+      params.require(:user).permit(:first_name, :last_name, :email, :phone, :password,
+                                   user_profile_attributes: [:id, :headline, :title, :bio, :identity_number, :gender,
+                                                             :religion, :designation, :contact_info, :contact_email,
+                                                             :expertises, :avatar,
+                                                             { social_link_attributes:
+                                                                 %i[id facebook_url github_url linkedin_url _destroy] }],
+                                   features_attributes: %i[id title description],
+                                   users_skills_attributes: %i[id skill_id rating],
+                                   projects_attributes: [:id, :title, :description, :live_url, :source_url,
+                                                         :react_count, :image,
+                                                         { project_categories_attributes: %i[id category_id] }],
+                                   blogs_attributes: [:id, :title, :body, :reading_time, :image,
+                                                      { blog_categories_attributes: %i[id category_id] }],
+                                   education_histories_attributes: %i[id institution degree grade description
+                                                                      start_date end_date currently_enrolled visibility],
+                                   work_histories_attributes: %i[id title employment_type company_name description
+                                                                 start_date end_date currently_employed visibility]
+
+      )
+
     end
 
     def default_profile
@@ -300,7 +316,7 @@ module Profile
                 dynamicus, qui
                 sequitur
                 mutationem consuetudium lectorum.',
-        reading_time: 120,
+        reading_time: 120
       )
       blog.image.attach(io: File.open(Rails.root.join('app/assets/images/blogs/blog-01.jpg')),
                         filename: 'blog-01.jpg')
@@ -320,7 +336,7 @@ module Profile
                 dynamicus, qui
                 sequitur
                 mutationem consuetudium lectorum.',
-        reading_time: 120,
+        reading_time: 120
       )
       blog.image.attach(io: File.open(Rails.root.join('app/assets/images/blogs/blog-02.jpg')),
                         filename: 'blog-02.jpg')
@@ -340,7 +356,7 @@ module Profile
                 dynamicus, qui
                 sequitur
                 mutationem consuetudium lectorum.',
-        reading_time: 120,
+        reading_time: 120
       )
       blog.image.attach(io: File.open(Rails.root.join('app/assets/images/blogs/blog-03.jpg')),
                         filename: 'blog-03.jpg')
