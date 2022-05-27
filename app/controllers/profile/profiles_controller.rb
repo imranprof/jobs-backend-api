@@ -34,6 +34,7 @@ module Profile
     def profile_data
       profile = @current_user.user_profile
       {
+        id: profile.id,
         first_name: profile.user.first_name,
         last_name: profile.user.last_name,
         headline: profile.headline,
@@ -61,7 +62,10 @@ module Profile
           image: url_for(project.image),
           live_url: project.live_url,
           source_url: project.source_url,
-          categories: project.project_categories.all.map(&:title).compact,
+          categories: project.project_categories.all.map do |project_category|
+            { id: project_category.id, category_id: project_category.category_id,
+              title: project_category.title }
+          end.compact,
           react_count: project.react_count
         }
       end.compact
@@ -86,7 +90,10 @@ module Profile
           body: blog.body,
           image: url_for(blog.image),
           reading_time: blog.reading_time,
-          category: blog.blog_categories.all.map(&:title)&.compact,
+          categories: blog.blog_categories.all.map do |blog_category|
+            { id: blog_category.id, category_id: blog_category.category_id,
+              title: blog_category.title }
+          end.compact
         }
       end.compact
     end
@@ -94,20 +101,24 @@ module Profile
     def resume_data
       {
         education: @current_user.education_histories.all.map do |education|
-          { institution: education.institution,
+          {
+            id: education.id,
+            institution: education.institution,
             degree: education.degree,
             grade: education.grade,
             currently_enrolled: education.currently_enrolled,
             visibility: false,
             start_date: education.start_date.strftime('%d %b, %Y'),
             end_date: education.end_date.strftime('%d %b, %Y'),
-            description: 'Contrary to popular belief. Ut tincidunt est ac dolor aliquam sodales. Phasellus sed mauris hendrerit, laoreet sem in, lobortis mauris hendrerit ante.' }
+            description: 'Contrary to popular belief. Ut tincidunt est ac dolor aliquam sodales. Phasellus sed mauris hendrerit, laoreet sem in, lobortis mauris hendrerit ante.'
+          }
         end.compact,
         skills: @current_user.users_skills.map do |users_skill|
           { id: users_skill.id, name: users_skill.skill.title, rating: users_skill.rating }
         end.compact,
         experience: @current_user.work_histories.map do |work|
           {
+            id: work.id,
             title: work.title,
             employment_type: work.employment_type,
             company_name: work.company_name,
@@ -139,20 +150,17 @@ module Profile
                                                              :expertises, :avatar,
                                                              { social_link_attributes:
                                                                  %i[id facebook_url github_url linkedin_url _destroy] }],
-                                   features_attributes: %i[id title description],
-                                   users_skills_attributes: %i[id skill_id rating],
+                                   features_attributes: %i[id title description _destroy],
+                                   users_skills_attributes: %i[id skill_id rating _destroy],
                                    projects_attributes: [:id, :title, :description, :live_url, :source_url,
-                                                         :react_count, :image,
-                                                         { project_categories_attributes: %i[id category_id] }],
-                                   blogs_attributes: [:id, :title, :body, :reading_time, :image,
-                                                      { blog_categories_attributes: %i[id category_id] }],
-                                   education_histories_attributes: %i[id institution degree grade description
+                                                         :react_count, :image, :_destroy,
+                                                         { project_categories_attributes: %i[id _destroy category_id] }],
+                                   blogs_attributes: [:id, :title, :body, :reading_time, :image, :_destroy,
+                                                      { blog_categories_attributes: %i[id category_id _destroy] }],
+                                   education_histories_attributes: %i[id institution degree grade description _destroy
                                                                       start_date end_date currently_enrolled visibility],
-                                   work_histories_attributes: %i[id title employment_type company_name description
-                                                                 start_date end_date currently_employed visibility]
-
-      )
-
+                                   work_histories_attributes: %i[id title employment_type company_name description _destroy
+                                                                 start_date end_date currently_employed visibility])
     end
 
     def default_profile
