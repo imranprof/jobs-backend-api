@@ -12,7 +12,7 @@ module Profile
 
     def update
       if @current_user.update(profile_params)
-        render json: data, status: :ok
+        show
       else
         render json: { message: 'Failed to update profile.' }, status: :bad_request
       end
@@ -107,7 +107,7 @@ module Profile
             degree: education.degree,
             grade: education.grade,
             currently_enrolled: education.currently_enrolled,
-            visibility: false,
+            visibility: education.visibility,
             start_date: education.start_date.strftime('%d %b, %Y'),
             end_date: education.end_date.strftime('%d %b, %Y'),
             description: 'Contrary to popular belief. Ut tincidunt est ac dolor aliquam sodales. Phasellus sed mauris hendrerit, laoreet sem in, lobortis mauris hendrerit ante.'
