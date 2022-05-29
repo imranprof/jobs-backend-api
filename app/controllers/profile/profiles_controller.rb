@@ -12,6 +12,7 @@ module Profile
 
     def update
       if @current_user.update(profile_params)
+        @current_user.reload
         show
       else
         render json: { message: 'Failed to update profile.' }, status: :bad_request
@@ -42,11 +43,11 @@ module Profile
         bio: profile.bio,
         avatar: url_for(profile.avatar),
         expertises: profile.expertises,
-        social_links: [
-          { id: 1, name: 'facebook', url: profile.social_link&.facebook_url },
-          { id: 2, name: 'github', url: profile.social_link&.github_url },
-          { id: 3, name: 'linkedin', url: profile.social_link&.linkedin_url }
-        ],
+        social_links: (
+          if profile.social_link
+            { id: profile.social_link.id, facebook_url: profile.social_link.facebook_url,
+              github_url: profile.social_link.github_url, linkedin_url: profile.social_link.linkedin_url }
+          end),
         skills: profile.user.users_skills.map do |users_skill|
           { id: users_skill.id, name: users_skill.skill.title, rating: users_skill.rating }
         end.compact
