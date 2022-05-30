@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_24_151438) do
+ActiveRecord::Schema.define(version: 2022_05_30_124009) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,6 +100,14 @@ ActiveRecord::Schema.define(version: 2022_05_24_151438) do
     t.index ["user_id"], name: "index_education_histories_on_user_id"
   end
 
+  create_table "expertises", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_profile_id", null: false
+    t.index ["user_profile_id"], name: "index_expertises_on_user_profile_id"
+  end
+
   create_table "features", force: :cascade do |t|
     t.string "title", null: false
     t.text "description", null: false
@@ -151,9 +159,9 @@ ActiveRecord::Schema.define(version: 2022_05_24_151438) do
     t.string "facebook_url"
     t.string "github_url"
     t.string "linkedin_url"
-    t.bigint "user_profile_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_profile_id", null: false
     t.index ["user_profile_id"], name: "index_social_links_on_user_profile_id"
   end
 
@@ -229,6 +237,7 @@ ActiveRecord::Schema.define(version: 2022_05_24_151438) do
   add_foreign_key "blog_categories", "categories"
   add_foreign_key "blogs", "users"
   add_foreign_key "education_histories", "users"
+  add_foreign_key "expertises", "user_profiles"
   add_foreign_key "features", "users"
   add_foreign_key "project_categories", "categories"
   add_foreign_key "project_categories", "projects"
