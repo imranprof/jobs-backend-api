@@ -42,8 +42,11 @@ module Profile
         id: user.id,
         first_name: user.first_name,
         last_name: user.last_name,
-        image: (url_for(user.user_profile.avatar) if user.user_profile&.avatar&.attached?),
+        image: url_for(user.user_profile.avatar),
         designation: user.user_profile&.designation,
+        hourly_rate: user.user_profile&.hourly_rate,
+        ratings: 4.5,
+        completed_jobs: 0,
         skills: user.users_skills.map do |users_skill|
           { id: users_skill.id, name: users_skill.skill.title, rating: users_skill.rating }
         end.compact
@@ -182,7 +185,7 @@ module Profile
       params.require(:user).permit(:first_name, :last_name, :email, :phone, :password,
                                    user_profile_attributes: [:id, :headline, :title, :bio, :identity_number, :gender,
                                                              :religion, :designation, :contact_info, :contact_email,
-                                                             :expertises, :avatar,
+                                                             :expertises, :avatar, :hourly_rate,
                                                              { social_link_attributes:
                                                                  %i[id facebook_url github_url linkedin_url _destroy] }],
                                    features_attributes: %i[id title description _destroy],
