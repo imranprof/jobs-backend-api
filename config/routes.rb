@@ -11,8 +11,8 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :profile do
-    get '', to: 'profiles#show'
-    patch '', to: 'profiles#update'
-  end
+  get 'profile', to: 'profile/profiles#show'
+  patch 'profile', to: 'profile/profiles#update'
+  get 'profiles', to: 'profile/profiles#index'
+
 end
