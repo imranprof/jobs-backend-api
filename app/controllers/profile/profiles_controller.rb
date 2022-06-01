@@ -168,7 +168,9 @@ module Profile
       user_profile = @current_user.create_user_profile(
         headline: 'WELCOME TO MY WORLD',
         title: "Hi, I'm",
-        bio: 'I use animation as a third dimension by which to simplify experiences and kuiding thro each and every interaction. I’m not adding motion just to spruce things up, but doing it in ways that.',
+        bio: 'I use animation as a third dimension by which to simplify experiences and
+              kuiding thro each and every interaction. I’m not adding motion just to spruce things up,
+              but doing it in ways that.',
         identity_number: '202219998',
         gender: 0,
         religion: 0,
@@ -203,22 +205,28 @@ module Profile
       skill.save
       UsersSkill.create!(rating: 90, user_id: @current_user.id, skill_id: skill.id)
       feature = @current_user.features.create(title: 'business strategy',
-                                              description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
+                                              description: 'I throw myself down among the tall grass by the stream as
+                                                            I lie close to the earth.')
       feature.save
       feature = @current_user.features.create(title: 'app development',
-                                              description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
+                                              description: 'I throw myself down among the tall grass by the stream as
+                                                            I lie close to the earth.')
       feature.save
       feature = @current_user.features.create(title: 'app design',
-                                              description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
+                                              description: 'I throw myself down among the tall grass by the stream as
+                                                            I lie close to the earth.')
       feature.save
       feature = @current_user.features.create(title: 'mobile app',
-                                              description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
+                                              description: 'I throw myself down among the tall grass by the stream as
+                                                            I lie close to the earth.')
       feature.save
       feature = @current_user.features.create(title: 'CEO marketing',
-                                              description: 'I throw myself down among the tall grass by the stream as I lie close to the earth.')
+                                              description: 'I throw myself down among the tall grass by the stream as
+                                                            I lie close to the earth.')
       feature.save
       feature = @current_user.features.create(title: 'UI & UX design',
-                                              description: 'It uses a dictionary of over 200 Latin words, combined with a handful of model sentence.')
+                                              description: 'I throw myself down among the tall grass by the stream as
+                                                            I lie close to the earth.')
       feature.save
       Category.create!(title: 'application')
       Category.create!(title: 'development')
@@ -228,7 +236,8 @@ module Profile
 
       project = @current_user.projects.create(
         title: 'The services provide for design',
-        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate distinctio assumenda explicabo veniam temporibus eligendi.',
+        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate distinctio
+                      assumenda explicabo veniam temporibus eligendi.',
         live_url: '#',
         source_url: '#',
         react_count: 600
@@ -240,7 +249,8 @@ module Profile
       ProjectCategory.create!(project_id: project.id, category_id: Category.all[1].id)
       project = @current_user.projects.create(
         title: 'The services provide for design',
-        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate distinctio assumenda explicabo veniam temporibus eligendi.',
+        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Cupiditate distinctio assumenda explicabo veniam temporibus eligendi.',
         live_url: '#',
         source_url: '#',
         react_count: 600
@@ -251,7 +261,8 @@ module Profile
       ProjectCategory.create!(project_id: project.id, category_id: Category.all[1].id)
       project = @current_user.projects.create(
         title: 'Mobile app landing design & app maintain',
-        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate distinctio assumenda explicabo veniam temporibus eligendi.',
+        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Cupiditate distinctio assumenda explicabo veniam temporibus eligendi.',
         live_url: '#',
         source_url: '#',
         react_count: 750
@@ -262,7 +273,8 @@ module Profile
       ProjectCategory.create!(project_id: project.id, category_id: Category.all[2].id)
       project = @current_user.projects.create(
         title: 'Logo design creativity & application',
-        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate distinctio assumenda explicabo veniam temporibus eligendi.',
+        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Cupiditate distinctio assumenda explicabo veniam temporibus eligendi.',
         live_url: '#',
         source_url: '#',
         react_count: 630
@@ -275,7 +287,8 @@ module Profile
         institution: 'University of A',
         degree: 'diploma',
         grade: 'B',
-        description: 'The education should be very interactual. Ut tincidunt est ac dolor aliquam sodales. Phasellus sed mauris hendrerit, laoreet sem in, lobortis mauris hendrerit ante.',
+        description: 'The education should be very interactual. Ut tincidunt est ac dolor aliquam sodales.
+                      Phasellus sed mauris hendrerit, laoreet sem in, lobortis mauris hendrerit ante.',
         start_date: DateTime.iso8601('2016-01-01', Date::ENGLAND),
         end_date: DateTime.iso8601('2018-01-01', Date::ENGLAND),
         currently_enrolled: false,
@@ -285,7 +298,8 @@ module Profile
         institution: 'University of B',
         degree: 'bachelor',
         grade: 'A',
-        description: 'The education should be very interactual. Ut tincidunt est ac dolor aliquam sodales. Phasellus sed mauris hendrerit, laoreet sem in, lobortis mauris hendrerit ante.',
+        description: 'The education should be very interactual. Ut tincidunt est ac dolor aliquam sodales.
+                      Phasellus sed mauris hendrerit, laoreet sem in, lobortis mauris hendrerit ante.',
         start_date: DateTime.iso8601('2018-01-01', Date::ENGLAND),
         end_date: DateTime.iso8601('2022-01-01', Date::ENGLAND),
         currently_enrolled: false,
@@ -295,7 +309,8 @@ module Profile
         title: 'Diploma in Web Development',
         employment_type: 0,
         company_name: 'Company A',
-        description: 'Contrary to popular belief. Ut tincidunt est ac dolor aliquam sodales. Phasellus sed mauris hendrerit, laoreet sem in, lobortis mauris hendrerit ante.',
+        description: 'Contrary to popular belief. Ut tincidunt est ac dolor aliquam sodales.
+                      Phasellus sed mauris hendrerit, laoreet sem in, lobortis mauris hendrerit ante.',
         start_date: DateTime.iso8601('2018-01-01', Date::ENGLAND),
         end_date: DateTime.iso8601('2020-01-01', Date::ENGLAND),
         currently_employed: true,
@@ -305,7 +320,8 @@ module Profile
         title: 'The Personal Portfolio Mystery',
         employment_type: 0,
         company_name: 'Company B',
-        description: 'Contrary to popular belief. Ut tincidunt est ac dolor aliquam sodales. Phasellus sed mauris hendrerit, laoreet sem in, lobortis mauris hendrerit ante.',
+        description: 'Contrary to popular belief. Ut tincidunt est ac dolor aliquam sodales.
+                      Phasellus sed mauris hendrerit, laoreet sem in, lobortis mauris hendrerit ante.',
         start_date: DateTime.iso8601('2020-01-01', Date::ENGLAND),
         end_date: DateTime.iso8601(DateTime.now.strftime('%Y-%m-%d'), Date::ENGLAND),
         currently_employed: true,
@@ -314,17 +330,9 @@ module Profile
       blog = @current_user.blogs.create(
         title: 'The services provide for design',
         body: 'Nobis eleifend option congue nihil imperdiet doming id quod mazim placerat
-                facer
-                possim assum.
-                Typi non
-                habent claritatem insitam; est usus legentis in iis qui facit eorum
-                claritatem.
-                Investigationes
-                demonstraverunt
-                lectores legere me lius quod ii legunt saepius. Claritas est etiam processus
-                dynamicus, qui
-                sequitur
-                mutationem consuetudium lectorum.',
+                facer possim assum. Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum
+                claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius.
+                Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum.',
         reading_time: 120
       )
       blog.image.attach(io: File.open(Rails.root.join('app/assets/images/blogs/blog-01.jpg')),
@@ -334,17 +342,9 @@ module Profile
       blog = @current_user.blogs.create(
         title: 'Mobile app landing design & app maintain',
         body: 'Nobis eleifend option congue nihil imperdiet doming id quod mazim placerat
-                facer
-                possim assum.
-                Typi non
-                habent claritatem insitam; est usus legentis in iis qui facit eorum
-                claritatem.
-                Investigationes
-                demonstraverunt
-                lectores legere me lius quod ii legunt saepius. Claritas est etiam processus
-                dynamicus, qui
-                sequitur
-                mutationem consuetudium lectorum.',
+                facer possim assum. Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum
+                claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius.
+                Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum.',
         reading_time: 120
       )
       blog.image.attach(io: File.open(Rails.root.join('app/assets/images/blogs/blog-02.jpg')),
@@ -354,17 +354,9 @@ module Profile
       blog = @current_user.blogs.create(
         title: 'T-shirt design is the part of design',
         body: 'Nobis eleifend option congue nihil imperdiet doming id quod mazim placerat
-                facer
-                possim assum.
-                Typi non
-                habent claritatem insitam; est usus legentis in iis qui facit eorum
-                claritatem.
-                Investigationes
-                demonstraverunt
-                lectores legere me lius quod ii legunt saepius. Claritas est etiam processus
-                dynamicus, qui
-                sequitur
-                mutationem consuetudium lectorum.',
+                facer possim assum. Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum
+                claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius.
+                Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum.',
         reading_time: 120
       )
       blog.image.attach(io: File.open(Rails.root.join('app/assets/images/blogs/blog-03.jpg')),
