@@ -111,7 +111,7 @@ module Profile
             visibility: education.visibility,
             start_date: education.start_date.strftime('%d %b, %Y'),
             end_date: education.end_date.strftime('%d %b, %Y'),
-            description: 'Contrary to popular belief. Ut tincidunt est ac dolor aliquam sodales. Phasellus sed mauris hendrerit, laoreet sem in, lobortis mauris hendrerit ante.'
+            description: education.description
           }
         end.compact,
         skills: @current_user.users_skills.map do |users_skill|
