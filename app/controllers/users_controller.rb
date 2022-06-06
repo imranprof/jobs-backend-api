@@ -16,10 +16,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      profile_controller = Profile::ProfilesController.new
-      profile_controller.request = request
-      profile_controller.response = response
-      render json: profile_controller.create_profile(@user.id), status: :created
+      render :'profile/profiles/show', status: :created
     else
       render json: @user.errors, status: :unprocessable_entity
     end
