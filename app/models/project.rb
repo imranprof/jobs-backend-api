@@ -1,8 +1,9 @@
 class Project < ApplicationRecord
   belongs_to :user
   has_one_attached :image
-  has_many :project_categories, dependent: :destroy
-  accepts_nested_attributes_for :project_categories, allow_destroy: true
+  has_many :categorizations, as: :categorizable, dependent: :destroy
+  has_many :categories, through: :categorizations
+  accepts_nested_attributes_for :categorizations, allow_destroy: true
 
   validate :check_image_presence
 

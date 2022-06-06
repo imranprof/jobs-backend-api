@@ -6,6 +6,6 @@ class UserProfile < ApplicationRecord
   accepts_nested_attributes_for :social_link, allow_destroy: true
 
   def check_avatar_presence
-    errors.add(:avatar, "no file added") unless avatar.attached?
+    errors.add(:avatar, 'no file added') unless avatar.attached?
   end
 end
