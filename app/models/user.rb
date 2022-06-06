@@ -18,7 +18,7 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :user_profile, :features, :users_skills, :projects, :blogs, :education_histories,
                                 :work_histories, reject_if: :all_blank, allow_destroy: true
 
-  after_save :default_user_profile
+  after_create :default_user_profile
 
   private
 
