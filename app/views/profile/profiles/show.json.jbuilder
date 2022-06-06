@@ -95,7 +95,7 @@ end
 json.contacts_data do
   json.first_name @user.first_name
   json.last_name @user.last_name
-  json.email @user.email
+  json.contact_email @user.user_profile.contact_email
   json.designation @user.user_profile.designation
   json.description @user.user_profile.contact_info
   json.phone @user.phone

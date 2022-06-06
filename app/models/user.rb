@@ -38,6 +38,7 @@ class User < ApplicationRecord
     )
     user_profile.avatar.attach(io: File.open(Rails.root.join('app/assets/images/default-avatar.png')),
                                filename: 'default-avatar.png')
+    user_profile.contact_email = email
     user_profile.save
     user_profile.expertises.push('Program')
     user_profile.expertises.push('Rails Developer')
