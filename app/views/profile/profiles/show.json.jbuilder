@@ -8,7 +8,7 @@ json.profile do
   json.headline @user.user_profile.headline
   json.title @user.user_profile.title
   json.bio @user.user_profile.bio
-  json.avatar url_for(@user.user_profile.avatar)
+  json.avatar request.base_url.concat(url_for(@user.user_profile.avatar))
   json.expertises @user.user_profile.expertises
   json.social_links do
     json.id @user.user_profile.social_link&.id
@@ -28,7 +28,7 @@ json.portfolio_data do
     json.id project.id
     json.title project.title
     json.description project.description
-    json.image url_for(project.image)
+    json.image request.base_url.concat(url_for(project.image))
     json.live_url project.live_url
     json.source_url project.source_url
     json.categories project.categorizations.all do |project_category|
@@ -45,7 +45,7 @@ json.features @user.features.all do |feature|
   json.title feature.title
   json.description feature.description
   if feature.icon.attached?
-    json.icon url_for(feature.icon)
+    json.icon request.base_url.concat(url_for(feature.icon))
   end
 end
 
@@ -53,7 +53,7 @@ json.blogs @user.blogs.all do |blog|
   json.id blog.id
   json.title blog.title
   json.body blog.body
-  json.image url_for(blog.image)
+  json.image request.base_url.concat(url_for(blog.image))
   json.reading_time blog.reading_time
   json.categories blog.categorizations.all do |blog_category|
     json.id blog_category.id
