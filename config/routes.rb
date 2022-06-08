@@ -10,4 +10,9 @@ Rails.application.routes.draw do
       resources :dashboard, only: [:index]
     end
   end
+
+  namespace :profile do
+    get '', to: 'profiles#show'
+    patch '', to: 'profiles#update'
+  end
 end
