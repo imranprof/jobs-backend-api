@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class AuthenticationController < ApplicationController
-  skip_before_action :authenticate_request, only: :sign_in
+  before_action :authenticate_request, only: %i[sign_out]
 
   def sign_in
     auth_response = AuthenticateUser.call(params[:email], params[:password])
