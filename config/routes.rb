@@ -8,11 +8,6 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1p1 do
       resources :dashboard, only: [:index]
-    end
-  end
-
-  namespace :api do
-    namespace :v1p1 do
       namespace :profiles do
         get 'profile', to: 'profiles#show'
         patch 'profile', to: 'profiles#update'
