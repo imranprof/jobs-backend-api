@@ -21,6 +21,15 @@ module Api
           end
         end
 
+        def create_contact
+          @user_contact = UserContact.new(contact_params)
+          if @user_contact.save
+            render json: { message: 'Message has been sent successfully.' }, status: :created
+          else
+            render json: { message: 'Sorry, something wrong' }
+          end
+        end
+
         private
 
         def profile_params
@@ -64,6 +73,9 @@ module Api
           %i[id title employment_type company_name description _destroy start_date end_date currently_employed visibility]
         end
 
+        def contact_params
+          params.require(:user_contact).permit(:name, :phone_number, :email, :subject, :message, :user_id, :messenger_id)
+        end
       end
     end
   end
