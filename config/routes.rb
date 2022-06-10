@@ -6,12 +6,13 @@ Rails.application.routes.draw do
   delete :sign_out, to: 'authentication#sign_out'
 
   namespace :api do
-    namespace :v1 do
+    namespace :v1p1 do
       resources :dashboard, only: [:index]
+      namespace :profiles do
+        get 'profile', to: 'profiles#show'
+        patch 'profile', to: 'profiles#update'
+        post 'contact', to: 'profiles#create_contact'
+      end
     end
-  end
-
-  namespace :profile do
-    post 'contact', to: 'profiles#create_contact'
   end
 end

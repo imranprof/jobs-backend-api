@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_25_091556) do
+ActiveRecord::Schema.define(version: 2022_06_05_192754) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,15 +54,6 @@ ActiveRecord::Schema.define(version: 2022_05_25_091556) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "blog_categories", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "category_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["category_id"], name: "index_blog_categories_on_category_id"
-    t.index ["user_id"], name: "index_blog_categories_on_user_id"
-  end
-
   create_table "blogs", force: :cascade do |t|
     t.string "title", null: false
     t.text "body", null: false
@@ -77,6 +68,16 @@ ActiveRecord::Schema.define(version: 2022_05_25_091556) do
     t.string "title", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "categorizations", force: :cascade do |t|
+    t.bigint "category_id", null: false
+    t.string "categorizable_type", null: false
+    t.bigint "categorizable_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["categorizable_type", "categorizable_id"], name: "index_categorizations_on_categorizable"
+    t.index ["category_id"], name: "index_categorizations_on_category_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -101,36 +102,25 @@ ActiveRecord::Schema.define(version: 2022_05_25_091556) do
   end
 
   create_table "expertises", force: :cascade do |t|
-    t.string "title", null: false
-    t.bigint "user_profile_id", null: false
+    t.string "title"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_profile_id", null: false
     t.index ["user_profile_id"], name: "index_expertises_on_user_profile_id"
   end
 
   create_table "features", force: :cascade do |t|
     t.string "title", null: false
     t.text "description", null: false
-    t.binary "icon", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_features_on_user_id"
   end
 
-  create_table "project_categories", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "category_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["category_id"], name: "index_project_categories_on_category_id"
-    t.index ["user_id"], name: "index_project_categories_on_user_id"
-  end
-
   create_table "projects", force: :cascade do |t|
     t.string "title", null: false
     t.text "description", null: false
-    t.text "technologies", null: false
     t.string "live_url", null: false
     t.string "source_url", null: false
     t.integer "react_count", null: false
@@ -161,9 +151,9 @@ ActiveRecord::Schema.define(version: 2022_05_25_091556) do
     t.string "facebook_url"
     t.string "github_url"
     t.string "linkedin_url"
-    t.bigint "user_profile_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_profile_id", null: false
     t.index ["user_profile_id"], name: "index_social_links_on_user_profile_id"
   end
 
@@ -176,7 +166,6 @@ ActiveRecord::Schema.define(version: 2022_05_25_091556) do
     t.integer "messenger_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "subject"
   end
 
   create_table "user_profiles", force: :cascade do |t|
@@ -192,6 +181,7 @@ ActiveRecord::Schema.define(version: 2022_05_25_091556) do
     t.string "designation", default: "", null: false
     t.text "contact_info", default: "", null: false
     t.string "contact_email"
+    t.string "expertises", default: [], array: true
     t.index ["user_id"], name: "index_user_profiles_on_user_id"
   end
 
@@ -235,14 +225,11 @@ ActiveRecord::Schema.define(version: 2022_05_25_091556) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "blog_categories", "categories"
-  add_foreign_key "blog_categories", "users"
   add_foreign_key "blogs", "users"
+  add_foreign_key "categorizations", "categories"
   add_foreign_key "education_histories", "users"
   add_foreign_key "expertises", "user_profiles"
   add_foreign_key "features", "users"
-  add_foreign_key "project_categories", "categories"
-  add_foreign_key "project_categories", "users"
   add_foreign_key "projects", "users"
   add_foreign_key "social_links", "user_profiles"
   add_foreign_key "user_contacts", "users"
