@@ -166,6 +166,7 @@ ActiveRecord::Schema.define(version: 2022_06_05_192754) do
     t.integer "messenger_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "subject"
   end
 
   create_table "user_profiles", force: :cascade do |t|
