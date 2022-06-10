@@ -5,3 +5,4 @@ FactoryBot.define do
     rating { 0 }
   end
 end
+
