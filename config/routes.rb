@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       namespace :profiles do
         get 'profile', to: 'profiles#show'
         patch 'profile', to: 'profiles#update'
+        post 'contact', to: 'profiles#create_contact'
       end
     end
   end
