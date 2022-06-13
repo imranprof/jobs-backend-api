@@ -12,9 +12,9 @@ json.profile do
   json.expertises @user.user_profile.expertises
   json.social_links do
     json.id @user.user_profile.social_link&.id
-    json.facebook @user.user_profile.social_link&.facebook_url
-    json.github @user.user_profile.social_link&.github_url
-    json.linkedin @user.user_profile.social_link&.linkedin_url
+    json.facebook @user.user_profile.social_link&.facebook
+    json.github @user.user_profile.social_link&.github
+    json.linkedin @user.user_profile.social_link&.linkedin
   end
   json.skills @user.users_skills do |users_skill|
     json.id users_skill.id
