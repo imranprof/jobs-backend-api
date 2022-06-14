@@ -12,9 +12,9 @@ json.profile do
   json.expertises @user.user_profile.expertises
   json.social_links do
     json.id @user.user_profile.social_link&.id
-    json.facebook_url @user.user_profile.social_link&.facebook_url
-    json.github_url @user.user_profile.social_link&.github_url
-    json.linkedin_url @user.user_profile.social_link&.linkedin_url
+    json.facebook @user.user_profile.social_link&.facebook
+    json.github @user.user_profile.social_link&.github
+    json.linkedin @user.user_profile.social_link&.linkedin
   end
   json.skills @user.users_skills do |users_skill|
     json.id users_skill.id
@@ -44,9 +44,7 @@ json.features @user.features.all do |feature|
   json.id feature.id
   json.title feature.title
   json.description feature.description
-  if feature.icon.attached?
-    json.icon request.base_url.concat(url_for(feature.icon))
-  end
+  json.icon request.base_url.concat(url_for(feature.icon)) if feature.icon.attached?
 end
 
 json.blogs @user.blogs.all do |blog|
