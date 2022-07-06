@@ -48,7 +48,7 @@ module Api
            :religion, :designation, :contact_info, :contact_email,
            :expertises, :avatar,
            { social_link_attributes:
-               %i[id facebook_url github_url linkedin_url _destroy] }
+               %i[id facebook github linkedin _destroy] }
           ]
         end
 

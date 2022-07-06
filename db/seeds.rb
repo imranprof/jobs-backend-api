@@ -1,19 +1,18 @@
 # frozen_string_literal: true
 
-User.create!(
-  first_name: 'Test',
-  last_name: 'UserOne',
-  email: 'test@email.com',
-  password: 'Test1234*',
-  password_confirmation: 'Test1234*',
-  phone: '+8801312345678'
-)
+require 'factory_bot'
 
-User.create!(
-  first_name: 'User',
-  last_name: 'Two',
-  email: 'test1@email.com',
-  password: 'Test1234*',
-  password_confirmation: 'Test1234*',
-  phone: '+8801312345679'
-)
+skill_list = [
+  { title: :Ruby, filename: 'ruby.png', icon_path: 'app/assets/images/skill/ruby.png' },
+  { title: :Javascript, filename: 'javascript.png', icon_path: 'app/assets/images/skill/javascript.png' },
+  { title: :Python, filename: 'python.png', icon_path: 'app/assets/images/skill/python.png' }
+]
+skill_list.each do |skill|
+  FactoryBot.create(:skill, title: skill[:title], filename: skill[:filename])
+end
+
+Category.create!(title: 'application')
+Category.create!(title: 'development')
+Category.create!(title: 'photoshop')
+Category.create!(title: 'figma')
+Category.create!(title: 'web design')
