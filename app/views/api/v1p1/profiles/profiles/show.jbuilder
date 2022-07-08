@@ -99,3 +99,8 @@ json.contacts_data do
   json.description @user.user_profile.contact_info
   json.phone @user.phone
 end
+
+json.all_categories Category.all do |category|
+  json.id category.id
+  json.title category.title
+end
