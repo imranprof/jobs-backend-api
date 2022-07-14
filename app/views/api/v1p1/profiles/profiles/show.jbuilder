@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 json.ignore_nil! true
+
+json.user_id @user.id
+
 json.profile do
   json.id @user.user_profile.id
   json.first_name @user.first_name
