@@ -19,6 +19,7 @@ json.profile do
   json.skills @user.users_skills do |users_skill|
     json.id users_skill.id
     json.title users_skill.skill.title
+    json.icon  request.base_url.concat(url_for(users_skill.skill.icon))
     json.rating users_skill.rating
   end
 end
@@ -97,4 +98,9 @@ json.contacts_data do
   json.designation @user.user_profile.designation
   json.description @user.user_profile.contact_info
   json.phone @user.phone
+end
+
+json.all_categories Category.all do |category|
+  json.id category.id
+  json.title category.title
 end

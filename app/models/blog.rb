@@ -6,6 +6,7 @@ class Blog < ApplicationRecord
   accepts_nested_attributes_for :categorizations, allow_destroy: true
 
   validate :check_image_presence
+  validates :title, :body, :reading_time, presence: true
 
   private
 
