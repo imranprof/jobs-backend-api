@@ -20,6 +20,7 @@ class User < ApplicationRecord
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
   validates :password, confirmation: true
+  validates :first_name, :last_name, presence: true
 
   has_many :user_contacts
   has_many :users_skills, dependent: :destroy
