@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 json.ignore_nil! true
+
+json.user_id @user.id
+
 json.profile do
   json.id @user.user_profile.id
   json.first_name @user.first_name
@@ -19,6 +22,7 @@ json.profile do
   json.skills @user.users_skills do |users_skill|
     json.id users_skill.id
     json.title users_skill.skill.title
+    json.icon request.base_url.concat(url_for(users_skill.skill.icon))
     json.rating users_skill.rating
   end
 end
@@ -68,8 +72,8 @@ json.resume_data do
     json.grade education.grade
     json.currently_enrolled education.currently_enrolled
     json.visibility education.visibility
-    json.start_date education.start_date.strftime('%d %b, %Y')
-    json.end_date education.end_date.strftime('%d %b, %Y')
+    json.start_date education.start_date
+    json.end_date education.end_date
     json.description education.description
   end
   json.skills @user.users_skills do |users_skill|
@@ -83,8 +87,8 @@ json.resume_data do
     json.employment_type work.employment_type
     json.company_name work.company_name
     json.description work.description
-    json.start_date work.start_date.strftime('%d %b, %Y')
-    json.end_date work.end_date.strftime('%d %b, %Y')
+    json.start_date work.start_date
+    json.end_date work.end_date
     json.currently_employed work.currently_employed
     json.visibility work.visibility
   end
@@ -96,5 +100,10 @@ json.contacts_data do
   json.contact_email @user.user_profile.contact_email
   json.designation @user.user_profile.designation
   json.description @user.user_profile.contact_info
-  json.phone @user.phone
+  json.phone @user.phone || '+8801712345678'
+end
+
+json.all_categories Category.all do |category|
+  json.id category.id
+  json.title category.title
 end

@@ -43,7 +43,7 @@ curl --location --request POST 'http://localhost:3000/sign_in' \
 You will get `ok 200` status along with signed in `user_email` and `auth_token` as the response. You will need this `auth_token` to verify your identity.
 
 #### 3. Visit dashboard
- - To verify your identity, you must need to provide `auth_token` what you got while signing in as an `Authorization` header. 
+- To verify your identity, you must need to provide `auth_token` what you got while signing in as an `Authorization` header.
 ```bash
 curl --location --request GET 'http://localhost:3000/api/v1/dashboard' \
 --header 'Content-Type: application/json' \
@@ -58,4 +58,3 @@ curl --location --request DELETE 'http://localhost:3000/sign_out' \
 --header 'Authorization: auth_token'
 ````
 By passing your valid `auth_token` to the sign_out endpoint, you will get `sign_out: true` as a successful sign_out response.
-

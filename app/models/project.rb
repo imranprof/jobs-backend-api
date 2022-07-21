@@ -6,6 +6,7 @@ class Project < ApplicationRecord
   accepts_nested_attributes_for :categorizations, allow_destroy: true
 
   validate :check_image_presence
+  validates :title, :description, :live_url, :source_url, :react_count, presence: true
 
   def check_image_presence
     errors.add(:image, 'no image added') unless image.attached?
