@@ -5,10 +5,15 @@ class Project < ApplicationRecord
   has_many :categories, through: :categorizations
   accepts_nested_attributes_for :categorizations, allow_destroy: true
 
-  validate :check_image_presence
+  before_save :save_default_image
   validates :title, :description, :live_url, :source_url, :react_count, presence: true
 
-  def check_image_presence
-    errors.add(:image, 'no image added') unless image.attached?
+  private
+
+  def save_default_image
+    unless image.attached?
+      image.attach(io: File.open(Rails.root.join('app/assets/images/projects/portfolio-01.jpg')),
+                   filename: 'portfolio-01.jpg')
+    end
   end
 end
