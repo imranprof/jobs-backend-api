@@ -7,7 +7,7 @@ module Api
         before_action :authenticate_request, only: %i[update]
 
         def show
-          @user = User.find_by(id: params[:user_id])
+          @user = UserProfile.find_by(slug: params[:profile_slug])&.user
           render json: { error: 'User is not found' }, status: :not_found unless @user
         end
 
