@@ -43,7 +43,7 @@ curl --location --request POST 'http://localhost:3000/sign_in' \
 You will get `ok 200` status along with signed in `user_email` and `auth_token` as the response. You will need this `auth_token` to verify your identity.
 
 #### 3. Visit dashboard
- - To verify your identity, you must need to provide `auth_token` what you got while signing in as an `Authorization` header. 
+- To verify your identity, you must need to provide `auth_token` what you got while signing in as an `Authorization` header.
 ```bash
 curl --location --request GET 'http://localhost:3000/api/v1/dashboard' \
 --header 'Content-Type: application/json' \
@@ -58,80 +58,3 @@ curl --location --request DELETE 'http://localhost:3000/sign_out' \
 --header 'Authorization: auth_token'
 ````
 By passing your valid `auth_token` to the sign_out endpoint, you will get `sign_out: true` as a successful sign_out response.
-
-## User Profile
-
-The `profile` endpoint has the following functionalities.
-
-* [Show](#show)
-* [Update](#update)
-
-### Show
-
-Shows the user's profile, features, skills, projects, blogs, work and education history.
-
-* **URL:** `/profile`
-
-* **Method:** `GET`
-  
-* **Authentication required:** `Yes`
-
-* **URL Params:** `None`
-
-* **Success Response:**
-   
-        * **Code:**
-      
-        * **Content:**
-   
-```json
-
-```
-
-* **Notes:**
-
-         The response will return an nested json objects of profile, resume, portfolio, and contact. 
-
-### Update
-
-Shows the user's profile, features, skills, projects, blogs, work and education history.
-
-* **URL:** `/profile`
-
-* **Method:** `PATCH`
-
-* **Authentication required:** `Yes`
-
-* **Required Fields:**
-
-        `id = [integer]`
-
-* **Payload:**
-
-        {
-            "user": {
-  aavatar: ""
-                
-            }
-        }
-
-* **Success Response:**
-
-        * **Code:**
-
-        * **Content:**
-
-```json
-
-```
-
-* **Error Response:**
-
-        * **Code:**
-        * **Content:**
-    
-
-* **Notes:**
-
-         The response will return an nested json objects of profile, resume, portfolio, and contact. 
-
