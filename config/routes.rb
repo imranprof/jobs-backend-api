@@ -10,7 +10,7 @@ Rails.application.routes.draw do
       resources :dashboard, only: [:index]
       namespace :profiles do
         get ':profile_slug', to: 'profiles#show'
-        patch 'profile', to: 'profiles#update'
+        patch ':profile_slug', to: 'profiles#update'
         post 'contact', to: 'profiles#create_contact'
       end
     end
