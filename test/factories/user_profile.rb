@@ -13,7 +13,7 @@ FactoryBot.define do
     designation { 'Chief operating officer' }
     contact_info { 'I am available for freelance work. Connect with me via and call in to my account.' }
     contact_email { user.email }
-    expertises { ['Program', 'Rails Developer', 'Programmer', 'Designer', 'Professional Coder'] }
+    expertises { ['Developer', 'Rails Developer', 'Programmer', 'Designer', 'Professional Coder'] }
     after(:build) do |user_profile|
       user_profile.avatar.attach(io: File.open(Rails.root.join('app/assets/images/default-avatar.png')),
                                  filename: 'default-avatar.png')
