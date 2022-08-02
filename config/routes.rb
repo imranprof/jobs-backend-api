@@ -9,8 +9,8 @@ Rails.application.routes.draw do
     namespace :v1p1 do
       resources :dashboard, only: [:index]
       namespace :profiles do
-        get 'profile', to: 'profiles#show'
-        patch 'profile', to: 'profiles#update'
+        get ':profile_slug', to: 'profiles#show'
+        patch ':profile_slug', to: 'profiles#update'
         post 'contact', to: 'profiles#create_contact'
       end
     end

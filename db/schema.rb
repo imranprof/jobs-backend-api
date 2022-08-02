@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_13_094125) do
+ActiveRecord::Schema.define(version: 2022_07_27_152035) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -183,6 +183,8 @@ ActiveRecord::Schema.define(version: 2022_06_13_094125) do
     t.text "contact_info", default: "", null: false
     t.string "contact_email"
     t.string "expertises", default: [], array: true
+    t.string "slug"
+    t.index ["slug"], name: "index_user_profiles_on_slug", unique: true
     t.index ["user_id"], name: "index_user_profiles_on_user_id"
   end
 

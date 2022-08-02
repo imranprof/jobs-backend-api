@@ -5,9 +5,11 @@ module Api
     module Profiles
       class ProfilesController < ApplicationController
         before_action :authenticate_request, only: %i[update]
+        before_action :edit_permission?, only: %i[show]
+        before_action :messenger_id, only: %i[create_contact]
 
         def show
-          @user = User.find_by(id: params[:user_id])
+          @user = UserProfile.find_by(slug: params[:profile_slug])&.user
           render json: { error: 'User is not found' }, status: :not_found unless @user
         end
 
@@ -23,6 +25,7 @@ module Api
 
         def create_contact
           @user_contact = UserContact.new(contact_params)
+          @user_contact.messenger_id = @messenger_id if @messenger_id
           if @user_contact.save
             render json: { message: 'Message has been sent successfully.' }, status: :created
           else
@@ -72,6 +75,16 @@ module Api
 
         def contact_params
           params.require(:user_contact).permit(:name, :phone_number, :email, :subject, :message, :user_id, :messenger_id)
+        end
+
+        def edit_permission?
+          @edit_permission = false
+          user_profile_id = User.find_by(token: request.headers['Authorization'])&.user_profile&.id
+          @edit_permission = user_profile_id == UserProfile.find_by(slug: params[:profile_slug])&.id if user_profile_id
+        end
+
+        def messenger_id
+          @messenger_id = User.find_by(token: request.headers['Authorization'])&.id
         end
       end
     end
