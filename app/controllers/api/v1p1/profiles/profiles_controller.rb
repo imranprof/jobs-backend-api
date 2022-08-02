@@ -5,6 +5,7 @@ module Api
     module Profiles
       class ProfilesController < ApplicationController
         before_action :authenticate_request, only: %i[update]
+        before_action :edit_permission?, only: %i[show]
 
         def show
           @user = UserProfile.find_by(slug: params[:profile_slug])&.user
@@ -75,6 +76,12 @@ module Api
 
         def contact_params
           params.require(:user_contact).permit(:name, :phone_number, :email, :subject, :message, :user_id, :messenger_id)
+        end
+
+        def edit_permission?
+          @edit_permission = false
+          user_profile_id = User.find_by(token: request.headers['Authorization'])&.user_profile&.id
+          @edit_permission = user_profile_id == UserProfile.find_by(slug: params[:profile_slug])&.id if user_profile_id
         end
       end
     end

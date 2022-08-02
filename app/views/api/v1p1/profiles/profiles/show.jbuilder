@@ -4,6 +4,8 @@ json.ignore_nil! true
 
 json.profile_slug @user.user_profile.slug
 
+json.edit_permission @edit_permission
+
 json.profile do
   json.id @user.user_profile.id
   json.first_name @user.first_name
