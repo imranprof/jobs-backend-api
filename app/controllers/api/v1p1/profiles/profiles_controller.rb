@@ -46,23 +46,20 @@ module Api
         def user_profile_attributes
           [:id, :headline, :title, :bio, :identity_number, :gender,
            :religion, :designation, :contact_info, :contact_email,
-           :expertises, :avatar,
+           :expertises, { avatar: :data },
            { social_link_attributes:
-               %i[id facebook github linkedin _destroy] }
-          ]
+               %i[id facebook github linkedin _destroy] }]
         end
 
         def projects_attributes
           [:id, :title, :description, :live_url, :source_url,
-           :react_count, :image, :_destroy,
-           { categorizations_attributes: %i[id _destroy category_id] }
-          ]
+           :react_count, { image: :data }, :_destroy,
+           { categorizations_attributes: %i[id _destroy category_id] }]
         end
 
         def blogs_attributes
-          [:id, :title, :body, :reading_time, :image, :_destroy,
-           { categorizations_attributes: %i[id category_id _destroy] }
-          ]
+          [:id, :title, :body, :reading_time, { image: :data }, :_destroy,
+           { categorizations_attributes: %i[id category_id _destroy] }]
         end
 
         def education_histories_attributes

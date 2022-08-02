@@ -1,6 +1,8 @@
 class Blog < ApplicationRecord
+  include ActiveStorageSupport::SupportForBase64
+
   belongs_to :user
-  has_one_attached :image
+  has_one_base64_attached :image, dependent: :destroy
   has_many :categorizations, as: :categorizable, dependent: :destroy
   has_many :categories, through: :categorizations
   accepts_nested_attributes_for :categorizations, allow_destroy: true
