@@ -2,7 +2,9 @@
 
 json.ignore_nil! true
 
-json.user_id @user.id
+json.profile_slug @user.user_profile.slug
+
+json.edit_permission @edit_permission
 
 json.profile do
   json.id @user.user_profile.id
@@ -78,6 +80,7 @@ json.resume_data do
   end
   json.skills @user.users_skills do |users_skill|
     json.id users_skill.id
+    json.skill_id users_skill.skill.id
     json.name users_skill.skill.title
     json.rating users_skill.rating
   end
@@ -106,4 +109,10 @@ end
 json.all_categories Category.all do |category|
   json.id category.id
   json.title category.title
+end
+
+json.all_skills Skill.all do |skill|
+  json.id skill.id
+  json.title skill.title
+  json.icon request.base_url.concat(url_for(skill.icon)) if skill.icon.attached?
 end
