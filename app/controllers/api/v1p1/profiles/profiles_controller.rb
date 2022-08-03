@@ -11,10 +11,9 @@ module Api
         PAGINATION_LIMIT = 8
 
         def index
-          profiles = User.order(id: :asc)
-                         .limit(PAGINATION_LIMIT)
-                         .offset(page * PAGINATION_LIMIT).map { |user| profile(user) }.compact
-          render json: profiles.as_json, status: :ok
+          @profiles = UserProfile.order(id: :asc)
+                                 .limit(PAGINATION_LIMIT)
+                                 .offset((profiles_params[:page].to_i || 0) * PAGINATION_LIMIT)
         end
 
         def show
@@ -43,26 +42,6 @@ module Api
         end
 
         private
-
-        def page
-          profiles_params[:page].to_i || 0
-        end
-
-        def profile(user)
-          {
-            id: user.id,
-            first_name: user.first_name,
-            last_name: user.last_name,
-            image: url_for(user.user_profile.avatar),
-            designation: user.user_profile&.designation,
-            hourly_rate: user.user_profile&.hourly_rate,
-            ratings: 4.5,
-            completed_jobs: 0,
-            skills: user.users_skills.map do |users_skill|
-              { id: users_skill.id, name: users_skill.skill.title, rating: users_skill.rating }
-            end.compact
-          }
-        end
 
         def profiles_params
           params.permit(:page)
