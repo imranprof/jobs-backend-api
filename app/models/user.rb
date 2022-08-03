@@ -40,8 +40,5 @@ class User < ApplicationRecord
 
   def default_user_profile
     FactoryBot.create(:user_profile, user: self)
-    BLOGS_ARRAY.each do |blog|
-      FactoryBot.create(:blog, user: self, title: blog[:title], filename: blog[:filename])
-    end
   end
 end
