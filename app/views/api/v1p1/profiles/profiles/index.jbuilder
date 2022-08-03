@@ -9,9 +9,7 @@ json.profiles @profiles do |profile|
   json.hourly_rate profile.hourly_rate || 20
   json.rating nil
   json.completed_jobs 0
-  json.skills profile.user.users_skills do |skill|
-    json.id skill.id
-    json.title skill.skill.title
-    json.rating skill.rating
-  end
+  json.skills profile.user.users_skills.map { |users_skill|
+    users_skill.skill.title
+  }.compact
 end
