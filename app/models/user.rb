@@ -43,9 +43,6 @@ class User < ApplicationRecord
     Skill.all.each do |skill|
       FactoryBot.create(:users_skill, user: self, skill: skill, rating: 90)
     end
-    FEATURES_ARRAY.each do |feature_title|
-      FactoryBot.create(:feature, user: self, title: feature_title)
-    end
     PROJECTS_ARRAY.each do |project|
       FactoryBot.create(:project, user: self, title: project[:title], filename: project[:filename])
     end
