@@ -1,14 +1,21 @@
 class Blog < ApplicationRecord
-  belongs_to :user
-  has_one_attached :image
-  has_many :blog_categories, dependent: :destroy
-  accepts_nested_attributes_for :blog_categories, allow_destroy: true
+  include ActiveStorageSupport::SupportForBase64
 
-  validate :check_image_presence
+  belongs_to :user
+  has_one_base64_attached :image, dependent: :destroy
+  has_many :categorizations, as: :categorizable, dependent: :destroy
+  has_many :categories, through: :categorizations
+  accepts_nested_attributes_for :categorizations, allow_destroy: true
+
+  before_save :save_default_image
+  validates :title, :body, :reading_time, presence: true
 
   private
 
-  def check_image_presence
-    errors.add('no image found') unless image.attached?
+  def save_default_image
+    unless image.attached?
+      image.attach(io: File.open(Rails.root.join('app/assets/images/blogs/blog-01.jpg')),
+                   filename: 'blog-01.jpg')
+    end
   end
 end

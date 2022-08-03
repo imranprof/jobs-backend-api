@@ -40,6 +40,8 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
+    active_storage_base64 (2.0.0)
+      rails (>= 7.0)
     activejob (7.0.0)
       activesupport (= 7.0.0)
       globalid (>= 0.3.6)
@@ -73,8 +75,11 @@ GEM
     diff-lcs (1.5.0)
     docile (1.4.0)
     erubi (1.10.0)
-    factory_bot (6.2.0)
+    factory_bot (6.2.1)
       activesupport (>= 5.0.0)
+    factory_bot_rails (6.2.0)
+      factory_bot (~> 6.2.0)
+      railties (>= 5.0.0)
     faker (2.19.0)
       i18n (>= 1.6, < 2)
     globalid (1.0.0)
@@ -84,6 +89,9 @@ GEM
     io-console (0.5.9)
     irb (1.3.7)
       reline (>= 0.2.7)
+    jbuilder (2.11.5)
+      actionview (>= 5.0.0)
+      activesupport (>= 5.0.0)
     jwt (2.3.0)
     loofah (2.13.0)
       crass (~> 1.0.2)
@@ -191,11 +199,13 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  active_storage_base64
   bcrypt (~> 3.1.7)
   bootsnap
   debug
-  factory_bot
+  factory_bot_rails
   faker
+  jbuilder
   jwt
   pg (~> 1.1)
   puma (~> 5.0)
@@ -211,4 +221,4 @@ RUBY VERSION
    ruby 3.0.3p157
 
 BUNDLED WITH
-   2.3.1
+   2.3.14
