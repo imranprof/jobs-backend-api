@@ -43,9 +43,6 @@ class User < ApplicationRecord
     Skill.all.each do |skill|
       FactoryBot.create(:users_skill, user: self, skill: skill, rating: 90)
     end
-    PROJECTS_ARRAY.each do |project|
-      FactoryBot.create(:project, user: self, title: project[:title], filename: project[:filename])
-    end
     FactoryBot.create(:education_history, user: self, institution: 'University of A', degree: 'diploma', grade: 'B',
                                           start_date: DateTime.iso8601('2016-01-01', Date::ENGLAND),
                                           end_date: DateTime.iso8601('2018-01-01', Date::ENGLAND))
