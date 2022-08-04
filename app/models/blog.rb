@@ -7,7 +7,7 @@ class Blog < ApplicationRecord
   has_many :categories, through: :categorizations
   accepts_nested_attributes_for :categorizations, allow_destroy: true
 
-  before_save :save_default_image
+  before_create :save_default_image
   validates :title, :body, :reading_time, presence: true
 
   private
