@@ -40,31 +40,5 @@ class User < ApplicationRecord
 
   def default_user_profile
     FactoryBot.create(:user_profile, user: self)
-    Skill.all.each do |skill|
-      FactoryBot.create(:users_skill, user: self, skill: skill, rating: 90)
-    end
-    FEATURES_ARRAY.each do |feature_title|
-      FactoryBot.create(:feature, user: self, title: feature_title)
-    end
-    PROJECTS_ARRAY.each do |project|
-      FactoryBot.create(:project, user: self, title: project[:title], filename: project[:filename])
-    end
-    FactoryBot.create(:education_history, user: self, institution: 'University of A', degree: 'diploma', grade: 'B',
-                                          start_date: DateTime.iso8601('2016-01-01', Date::ENGLAND),
-                                          end_date: DateTime.iso8601('2018-01-01', Date::ENGLAND))
-    FactoryBot.create(:education_history, user: self, institution: 'University of B', degree: 'diploma', grade: 'B',
-                                          start_date: DateTime.iso8601('2018-01-01', Date::ENGLAND),
-                                          end_date: DateTime.iso8601('2022-01-01', Date::ENGLAND))
-    FactoryBot.create(:work_history, user: self, title: 'The Personal Portfolio Mystery', employment_type: 0,
-                                     company_name: 'Company A', start_date: DateTime.iso8601('2018-01-01', Date::ENGLAND),
-                                     end_date: DateTime.iso8601('2019-01-01', Date::ENGLAND), currently_employed: true,
-                                     visibility: true)
-    FactoryBot.create(:work_history, user: self, title: 'Tips For Personal Portfolio', employment_type: 0,
-                                     company_name: 'Company B', start_date: DateTime.iso8601('2018-01-01', Date::ENGLAND),
-                                     end_date: DateTime.iso8601('2019-01-01', Date::ENGLAND), currently_employed: true,
-                                     visibility: true)
-    BLOGS_ARRAY.each do |blog|
-      FactoryBot.create(:blog, user: self, title: blog[:title], filename: blog[:filename])
-    end
   end
 end
