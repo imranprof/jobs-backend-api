@@ -8,6 +8,14 @@ module Api
         before_action :edit_permission?, only: %i[show]
         before_action :messenger_id, only: %i[create_contact]
 
+        PAGINATION_LIMIT = 8
+
+        def index
+          @profiles = UserProfile.order(id: :asc)
+                                 .limit(PAGINATION_LIMIT)
+                                 .offset((profiles_params[:page].to_i || 0) * PAGINATION_LIMIT)
+        end
+
         def show
           @user = UserProfile.find_by(slug: params[:profile_slug])&.user
           render json: { error: 'User is not found' }, status: :not_found unless @user
@@ -34,6 +42,10 @@ module Api
         end
 
         private
+
+        def profiles_params
+          params.permit(:page)
+        end
 
         def profile_params
           params.require(:user).permit(:first_name, :last_name, :email, :phone, :password,

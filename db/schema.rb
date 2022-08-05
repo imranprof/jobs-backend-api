@@ -183,6 +183,7 @@ ActiveRecord::Schema.define(version: 2022_07_27_152035) do
     t.text "contact_info", default: "", null: false
     t.string "contact_email"
     t.string "expertises", default: [], array: true
+    t.integer "hourly_rate"
     t.string "slug"
     t.index ["slug"], name: "index_user_profiles_on_slug", unique: true
     t.index ["user_id"], name: "index_user_profiles_on_user_id"
