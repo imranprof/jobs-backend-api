@@ -112,7 +112,9 @@ json.all_categories Category.all do |category|
 end
 
 json.all_skills Skill.all do |skill|
-  json.id skill.id
-  json.title skill.title
-  json.icon request.base_url.concat(url_for(skill.icon)) if skill.icon.attached?
+  unless skill.custom_skill
+    json.id skill.id
+    json.title skill.title
+    json.icon request.base_url.concat(url_for(skill.icon)) if skill.icon.attached?
+  end
 end

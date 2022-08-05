@@ -51,7 +51,7 @@ module Api
           params.require(:user).permit(:first_name, :last_name, :email, :phone, :password,
                                        user_profile_attributes: user_profile_attributes,
                                        features_attributes: %i[id title description _destroy],
-                                       users_skills_attributes: %i[id skill_id rating _destroy],
+                                       users_skills_attributes: %i[id skill_id rating skill_title _destroy],
                                        projects_attributes: projects_attributes,
                                        blogs_attributes: blogs_attributes,
                                        education_histories_attributes: education_histories_attributes,
