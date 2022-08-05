@@ -7,7 +7,7 @@ class Project < ApplicationRecord
   has_many :categories, through: :categorizations
   accepts_nested_attributes_for :categorizations, allow_destroy: true
 
-  before_save :save_default_image
+  before_create :save_default_image
   validates :title, :description, :live_url, :source_url, :react_count, presence: true
 
   private

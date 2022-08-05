@@ -3,17 +3,18 @@ FactoryBot.define do
     user
     headline { 'WELCOME TO MY WORLD' }
     title { "Hi, I'm" }
-    bio {
-      'I use animation as a third dimension by which to simplify experiences and'\
-              ' kuiding thro each and every interaction. I’m not adding motion just to spruce things up,'\
-              ' but doing it in ways that.' }
+    bio do
+      'Your profile Bio should contain a short detail of your work experience. '\
+      'Write about the experiences that are relevant to the services you are offering. '\
+      'While it’s important to keep the bio professional.'
+    end
     identity_number { '202219998' }
     gender { 0 }
     religion { 0 }
-    designation { 'Chief operating officer' }
-    contact_info { 'I am available for freelance work. Connect with me via and call in to my account.' }
+    designation { 'Your designation here. E.g. \'Certified Supply Chain Professional\'' }
+    contact_info { 'I\'d love to hear from you! Send me a question and i\'ll be in touch you as soon as possible' }
     contact_email { user.email }
-    expertises { ['Developer', 'Rails Developer', 'Programmer', 'Designer', 'Professional Coder'] }
+    expertises { ['Problem Solver', 'Creative Thinker'] }
     after(:build) do |user_profile|
       user_profile.avatar.attach(io: File.open(Rails.root.join('app/assets/images/default-avatar.png')),
                                  filename: 'default-avatar.png')

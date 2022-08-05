@@ -103,7 +103,7 @@ json.contacts_data do
   json.contact_email @user.user_profile.contact_email
   json.designation @user.user_profile.designation
   json.description @user.user_profile.contact_info
-  json.phone @user.phone || '+8801712345678'
+  json.phone @user.phone || '+88-01112223334'
 end
 
 json.all_categories Category.all do |category|
@@ -112,7 +112,9 @@ json.all_categories Category.all do |category|
 end
 
 json.all_skills Skill.all do |skill|
-  json.id skill.id
-  json.title skill.title
-  json.icon request.base_url.concat(url_for(skill.icon)) if skill.icon.attached?
+  unless skill.custom_skill
+    json.id skill.id
+    json.title skill.title
+    json.icon request.base_url.concat(url_for(skill.icon)) if skill.icon.attached?
+  end
 end
