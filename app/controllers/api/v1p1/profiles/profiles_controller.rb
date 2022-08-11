@@ -16,6 +16,30 @@ module Api
                                  .offset((profiles_params[:page].to_i || 0) * PAGINATION_LIMIT)
         end
 
+        def search
+          value = search_params[:search_value].downcase
+          first_name = value
+          last_name = value
+          designation = value
+          full_name = value.split
+          space = value.match(' ')
+          if space != nil
+            if full_name.length == 1
+              first_name = full_name[0]
+              last_name = full_name[0]
+            else
+              first_name = full_name[0]
+              last_name = full_name[1]
+            end
+          end
+
+          @profiles = UserProfile.joins(:user).where('lower(users.first_name) LIKE ?', '%'+first_name+'%')
+                                 .or(UserProfile.joins(:user).where('lower(users.last_name) LIKE ?', '%'+last_name+'%'))
+                                 .or(UserProfile.where('lower(user_profiles.designation) LIKE ?', '%'+designation+'%'))
+
+          render :index
+        end
+
         def show
           @user = UserProfile.find_by(slug: params[:profile_slug])&.user
           render json: { error: 'User is not found' }, status: :not_found unless @user
@@ -45,6 +69,10 @@ module Api
 
         def profiles_params
           params.permit(:page)
+        end
+
+        def search_params
+          params.permit(:search_value)
         end
 
         def profile_params
