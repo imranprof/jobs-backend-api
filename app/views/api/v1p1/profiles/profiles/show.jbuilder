@@ -6,6 +6,10 @@ json.profile_slug @user.user_profile.slug
 
 json.edit_permission @edit_permission
 
+json.role @user.role
+
+json.company_name @user.company_name
+
 json.profile do
   json.id @user.user_profile.id
   json.first_name @user.first_name
