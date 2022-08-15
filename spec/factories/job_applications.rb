@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :application do
+  factory :job_application do
     
   end
 end
