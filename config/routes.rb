@@ -14,6 +14,8 @@ Rails.application.routes.draw do
         patch ':profile_slug', to: 'profiles#update'
         post 'contact', to: 'profiles#create_contact'
       end
+
+      resources :jobs
     end
   end
 end
