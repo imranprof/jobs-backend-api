@@ -11,7 +11,8 @@ module Api
         PAGINATION_LIMIT = 8
 
         def index
-          @profiles = UserProfile.order(id: :asc)
+          @profiles = UserProfile.joins(:user).where('users.role != ?', 'employer')
+                                 .order(id: :asc)
                                  .limit(PAGINATION_LIMIT)
                                  .offset((profiles_params[:page].to_i || 0) * PAGINATION_LIMIT)
         end
@@ -33,9 +34,14 @@ module Api
             end
           end
 
-          @profiles = UserProfile.joins(:user).where('lower(users.first_name) LIKE ?', '%'+first_name+'%')
-                                 .or(UserProfile.joins(:user).where('lower(users.last_name) LIKE ?', '%'+last_name+'%'))
-                                 .or(UserProfile.where('lower(user_profiles.designation) LIKE ?', '%'+designation+'%'))
+          @profiles1 = UserProfile.joins(:user).where('(lower(users.first_name) LIKE ?
+                                                       OR lower(users.last_name) LIKE ?
+                                                       OR lower(user_profiles.designation) LIKE ?)
+                                                       AND users.role != ?', '%' + first_name + '%', '%' + last_name + '%', '%' + designation + '%', 'employer').uniq
+
+          @profiles2 = UserProfile.joins({ user: { skills: :users_skills } }).where('lower(skills.title)  LIKE ?', '%' + first_name + '%').uniq
+          @profiles = @profiles1 + @profiles2
+          @profiles - (@profiles1 & @profiles2)
 
           render :index
         end
