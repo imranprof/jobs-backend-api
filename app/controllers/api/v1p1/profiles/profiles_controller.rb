@@ -41,7 +41,7 @@ module Api
 
           @profiles2 = UserProfile.joins({ user: { skills: :users_skills } }).where('lower(skills.title)  LIKE ?', '%' + first_name + '%').uniq
           @profiles = @profiles1 + @profiles2
-          @profiles - (@profiles1 & @profiles2)
+          @profiles -= (@profiles1 & @profiles2)
 
           render :index
         end
