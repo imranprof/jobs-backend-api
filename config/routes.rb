@@ -15,7 +15,14 @@ Rails.application.routes.draw do
         post 'contact', to: 'profiles#create_contact'
       end
 
-      resources :jobs
+      resources :jobs, only: %i[index create] do
+        collection do
+          get 'job', to: 'jobs#show'
+          patch 'job', to: 'jobs#update'
+          delete 'job', to: 'jobs#destroy'
+          post 'apply', to: 'jobs#apply'
+        end
+      end
     end
   end
 end

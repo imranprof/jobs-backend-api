@@ -3,10 +3,11 @@
 module Api
   module V1p1
     class JobsController < ApplicationController
-      before_action :authenticate_request, only: %i[create update destroy]
+      before_action :authenticate_request, only: %i[create update destroy apply]
       before_action :set_job, only: %i[show update destroy]
 
       EMPLOYER = 'employer'
+      EMPLOYEE = 'employee'
 
       def index
         @jobs = Job.all
@@ -28,7 +29,8 @@ module Api
       end
 
       def update
-        if @job.update(jobs_params)
+        @job = current_user.jobs.find_by(id: jobs_params[:id].to_i)
+        if @job&.update(jobs_params)
           render :show, status: :ok
         else
           @error = 'Failed to update job'
@@ -37,13 +39,31 @@ module Api
       end
 
       def destroy
-        @job.destroy
+        job = current_user.jobs.find_by(id: jobs_params[:id].to_i)
+        unless job
+          @error = 'Failed to delete the job'
+          render :error, status: :unprocessable_entity and return
+        end
+        job.destroy
+        head :ok
+      end
+
+      def apply
+        unless current_user.role == EMPLOYEE
+          @error = 'Only employee can apply for job'
+          render :error, status: :unprocessable_entity and return
+        end
+        unless JobApplication.new(user_id: current_user.id, job_id: jobs_params[:id].to_i).save
+          @error = 'Failed to apply for the job'
+          render :error, status: :unprocessable_entity and return
+        end
+        head :ok
       end
 
       private
 
       def jobs_params
-        params.permit(%i[id title description location skills])
+        params.require(:job).permit(%i[id title description location skills])
       end
 
       def set_job
