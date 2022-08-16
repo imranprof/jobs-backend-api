@@ -37,11 +37,10 @@ module Api
           @profiles1 = UserProfile.joins(:user).where('(lower(users.first_name) LIKE ?
                                                        OR lower(users.last_name) LIKE ?
                                                        OR lower(user_profiles.designation) LIKE ?)
-                                                       AND users.role != ?', '%' + first_name + '%', '%' + last_name + '%', '%' + designation + '%', 'employer').uniq
+                                                       AND users.role != ?', '%' + first_name + '%', '%' + last_name + '%', '%' + designation + '%', 'employer')
 
-          @profiles2 = UserProfile.joins({ user: { skills: :users_skills } }).where('lower(skills.title)  LIKE ?', '%' + first_name + '%').uniq
-          @profiles = @profiles1 + @profiles2
-          @profiles -= (@profiles1 & @profiles2)
+          @profiles2 = UserProfile.joins({ user: { skills: :users_skills } }).where('lower(skills.title)  LIKE ?', '%' + first_name + '%')
+          @profiles = (@profiles1 + @profiles2).uniq
 
           render :index
         end
