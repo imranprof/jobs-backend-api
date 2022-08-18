@@ -21,6 +21,7 @@ Rails.application.routes.draw do
           patch 'job', to: 'jobs#update'
           delete 'job', to: 'jobs#destroy'
           post 'apply', to: 'jobs#apply'
+          post 'my-jobs', to: 'jobs#my_jobs'
         end
       end
     end

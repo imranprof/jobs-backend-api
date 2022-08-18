@@ -3,7 +3,7 @@
 module Api
   module V1p1
     class JobsController < ApplicationController
-      before_action :authenticate_request, only: %i[create update destroy apply]
+      before_action :authenticate_request, only: %i[create update destroy apply my_jobs]
       before_action :set_job, only: %i[show update destroy]
 
       EMPLOYER = 'employer'
@@ -58,6 +58,15 @@ module Api
           render :error, status: :unprocessable_entity and return
         end
         head :ok
+      end
+
+      def my_jobs
+        @is_employer = current_user.role == EMPLOYER
+        @jobs = if @role == EMPLOYEE
+                  current_user.applied_jobs
+                else
+                  current_user.jobs.all
+                end
       end
 
       private
