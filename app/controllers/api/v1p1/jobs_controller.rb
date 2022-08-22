@@ -62,10 +62,10 @@ module Api
 
       def my_jobs
         @is_employer = current_user.role == EMPLOYER
-        @jobs = if @role == EMPLOYEE
-                  current_user.applied_jobs
-                else
+        @jobs = if @is_employer
                   current_user.jobs.all
+                else
+                  current_user.applied_jobs
                 end
       end
 
