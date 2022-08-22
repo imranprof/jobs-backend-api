@@ -25,7 +25,7 @@ module Api
           @error = 'Unable to create job'
           render :error, status: :unprocessable_entity and return
         end
-        render :show, status: :ok
+        render :show, status: :created
       end
 
       def update
