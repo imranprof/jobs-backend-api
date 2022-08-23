@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_11_104125) do
+ActiveRecord::Schema.define(version: 2022_08_15_105854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,6 +116,26 @@ ActiveRecord::Schema.define(version: 2022_08_11_104125) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_features_on_user_id"
+  end
+
+  create_table "job_applications", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "job_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["job_id"], name: "index_job_applications_on_job_id"
+    t.index ["user_id"], name: "index_job_applications_on_user_id"
+  end
+
+  create_table "jobs", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description"
+    t.string "location"
+    t.string "skills", default: [], array: true
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_jobs_on_user_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -237,6 +257,9 @@ ActiveRecord::Schema.define(version: 2022_08_11_104125) do
   add_foreign_key "education_histories", "users"
   add_foreign_key "expertises", "user_profiles"
   add_foreign_key "features", "users"
+  add_foreign_key "job_applications", "jobs"
+  add_foreign_key "job_applications", "users"
+  add_foreign_key "jobs", "users"
   add_foreign_key "projects", "users"
   add_foreign_key "social_links", "user_profiles"
   add_foreign_key "user_contacts", "users"

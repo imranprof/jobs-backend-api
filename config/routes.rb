@@ -14,6 +14,14 @@ Rails.application.routes.draw do
         patch ':profile_slug', to: 'profiles#update'
         post 'contact', to: 'profiles#create_contact'
       end
+
+      resources :jobs, only: %i[index create] do
+        collection do
+          get 'job', to: 'jobs#show'
+          patch 'job', to: 'jobs#update'
+          delete 'job', to: 'jobs#destroy'
+        end
+      end
     end
   end
 end
