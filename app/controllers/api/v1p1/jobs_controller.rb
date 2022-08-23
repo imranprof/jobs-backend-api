@@ -3,8 +3,8 @@
 module Api
   module V1p1
     class JobsController < ApplicationController
-      prepend_before_action :authenticate_request, only: %i[create update destroy]
-      before_action :authenticate_job_request, only: %i[create update destroy]
+      prepend_before_action :authenticate_request, only: %i[create update destroy apply my_jobs]
+      before_action :authenticate_job_request, only: %i[create update destroy apply my_jobs]
       before_action :set_job, only: %i[show]
 
       def index
@@ -37,10 +37,31 @@ module Api
         head :no_content
       end
 
+      def apply
+        unless JobApplication.new(user_id: current_user.id, job_id: job_params[:id].to_i).save
+          @error = 'Failed to apply for the job'
+          render :error, status: :unprocessable_entity and return
+        end
+        head :ok
+      end
+
+      def my_jobs
+        @jobs = if @is_employer
+                  current_user.jobs.all
+                else
+                  current_user.applied_jobs
+                end
+      end
+
       def authenticate_job_request
         @is_employer = current_user.role == 'employer'
+        return if params[:action] == 'my_jobs'
+        return if params[:action] == 'apply' && !@is_employer
         return if params[:action] == 'create' && @is_employer
-        return if current_user.jobs.find_by(id: job_params[:id].to_i) && @is_employer
+
+        if params[:action] == 'destroy' || params[:action] == 'update'
+          return if current_user.jobs.find_by(id: job_params[:id].to_i) && @is_employer
+        end
 
         @error = 'You can not perform this action'
         render :error, status: :unauthorized
