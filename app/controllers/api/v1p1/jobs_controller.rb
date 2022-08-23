@@ -14,7 +14,7 @@ module Api
       def show; end
 
       def create
-        @job = current_user.jobs.new(jobs_params)
+        @job = current_user.jobs.new(job_params)
         unless @job.save
           @error = 'Unable to create job'
           render :error, status: :unprocessable_entity and return
@@ -23,8 +23,8 @@ module Api
       end
 
       def update
-        @job = current_user.jobs.find_by(id: jobs_params[:id].to_i)
-        if @job&.update(jobs_params)
+        @job = current_user.jobs.find_by(id: job_params[:id].to_i)
+        if @job&.update(job_params)
           render :show, status: :ok
         else
           @error = 'Failed to update job'
@@ -33,14 +33,14 @@ module Api
       end
 
       def destroy
-        current_user.jobs.find_by(id: jobs_params[:id].to_i).destroy
+        current_user.jobs.find_by(id: job_params[:id].to_i).destroy
         head :no_content
       end
 
       def authenticate_job_request
         @is_employer = current_user.role == 'employer'
         return if params[:action] == 'create' && @is_employer
-        return if current_user.jobs.find_by(id: jobs_params[:id].to_i) && @is_employer
+        return if current_user.jobs.find_by(id: job_params[:id].to_i) && @is_employer
 
         @error = 'You can not perform this action'
         render :error, status: :unauthorized
@@ -53,7 +53,7 @@ module Api
       end
 
       def set_job
-        @job = Job.find_by(id: jobs_params[:id].to_i)
+        @job = Job.find_by(id: job_params[:id].to_i)
         unless @job
           @error = 'Job is not found'
           render :error, status: :not_found
