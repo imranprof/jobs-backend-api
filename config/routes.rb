@@ -10,9 +10,10 @@ Rails.application.routes.draw do
       resources :dashboard, only: [:index]
       namespace :profiles do
         get '', to: 'profiles#index'
-        get ':profile_slug', to: 'profiles#show'
         patch ':profile_slug', to: 'profiles#update'
         post 'contact', to: 'profiles#create_contact'
+        get 'search', to: 'profiles#search'
+        get ':profile_slug', to: 'profiles#show'
       end
 
       resources :jobs, only: %i[index create] do
