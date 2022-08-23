@@ -9,6 +9,8 @@ class UserProfile < ApplicationRecord
   accepts_nested_attributes_for :social_link, allow_destroy: true
   before_create :set_slug
 
+  PAGINATION_LIMIT = 8
+
   def check_avatar_presence
     errors.add(:avatar, 'no file added') unless avatar.attached?
   end

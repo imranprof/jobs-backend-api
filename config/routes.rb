@@ -9,9 +9,21 @@ Rails.application.routes.draw do
     namespace :v1p1 do
       resources :dashboard, only: [:index]
       namespace :profiles do
-        get ':profile_slug', to: 'profiles#show'
+        get '', to: 'profiles#index'
         patch ':profile_slug', to: 'profiles#update'
         post 'contact', to: 'profiles#create_contact'
+        get 'search', to: 'profiles#search'
+        get ':profile_slug', to: 'profiles#show'
+      end
+
+      resources :jobs, only: %i[index create] do
+        collection do
+          get 'job', to: 'jobs#show'
+          patch 'job', to: 'jobs#update'
+          delete 'job', to: 'jobs#destroy'
+          post 'apply', to: 'jobs#apply'
+          post 'my-jobs', to: 'jobs#my_jobs'
+        end
       end
     end
   end

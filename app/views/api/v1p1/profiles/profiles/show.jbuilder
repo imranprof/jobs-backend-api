@@ -6,6 +6,10 @@ json.profile_slug @user.user_profile.slug
 
 json.edit_permission @edit_permission
 
+json.role @user.role
+
+json.company_name @user.company_name
+
 json.profile do
   json.id @user.user_profile.id
   json.first_name @user.first_name
@@ -103,7 +107,7 @@ json.contacts_data do
   json.contact_email @user.user_profile.contact_email
   json.designation @user.user_profile.designation
   json.description @user.user_profile.contact_info
-  json.phone @user.phone || '+8801712345678'
+  json.phone @user.phone || '+88-01112223334'
 end
 
 json.all_categories Category.all do |category|
@@ -112,7 +116,9 @@ json.all_categories Category.all do |category|
 end
 
 json.all_skills Skill.all do |skill|
-  json.id skill.id
-  json.title skill.title
-  json.icon request.base_url.concat(url_for(skill.icon)) if skill.icon.attached?
+  unless skill.custom_skill
+    json.id skill.id
+    json.title skill.title
+    json.icon request.base_url.concat(url_for(skill.icon)) if skill.icon.attached?
+  end
 end
