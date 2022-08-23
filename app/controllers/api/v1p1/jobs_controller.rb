@@ -38,11 +38,7 @@ module Api
       end
 
       def apply
-        unless current_user.role == EMPLOYEE
-          @error = 'Only employee can apply for job'
-          render :error, status: :unprocessable_entity and return
-        end
-        unless JobApplication.new(user_id: current_user.id, job_id: jobs_params[:id].to_i).save
+        unless JobApplication.new(user_id: current_user.id, job_id: job_params[:id].to_i).save
           @error = 'Failed to apply for the job'
           render :error, status: :unprocessable_entity and return
         end
@@ -50,7 +46,6 @@ module Api
       end
 
       def my_jobs
-        @is_employer = current_user.role == EMPLOYER
         @jobs = if @is_employer
                   current_user.jobs.all
                 else
@@ -60,8 +55,13 @@ module Api
 
       def authenticate_job_request
         @is_employer = current_user.role == 'employer'
+        return if params[:action] == 'my_jobs'
+        return if params[:action] == 'apply' && !@is_employer
         return if params[:action] == 'create' && @is_employer
-        return if current_user.jobs.find_by(id: job_params[:id].to_i) && @is_employer
+
+        if params[:action] == 'destroy' || params[:action] == 'update'
+          return if current_user.jobs.find_by(id: job_params[:id].to_i) && @is_employer
+        end
 
         @error = 'You can not perform this action'
         render :error, status: :unauthorized
