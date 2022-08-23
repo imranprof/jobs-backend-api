@@ -48,7 +48,7 @@ module Api
 
       private
 
-      def jobs_params
+      def job_params
         params.require(:job).permit(%i[id title description location skills])
       end
 
