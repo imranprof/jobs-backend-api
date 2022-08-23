@@ -8,12 +8,36 @@ module Api
         before_action :edit_permission?, only: %i[show]
         before_action :messenger_id, only: %i[create_contact]
 
-        PAGINATION_LIMIT = 8
-
         def index
-          @profiles = UserProfile.order(id: :asc)
-                                 .limit(PAGINATION_LIMIT)
-                                 .offset((profiles_params[:page].to_i || 0) * PAGINATION_LIMIT)
+          @profiles = UserProfile.joins(:user).where('users.role != ?', 'employer')
+                                 .order(id: :asc)
+                                 .limit(UserProfile::PAGINATION_LIMIT)
+                                 .offset((profiles_params[:page].to_i || 0) * UserProfile::PAGINATION_LIMIT)
+        end
+
+        def search
+          value = search_params[:search_value].downcase
+          first_name = last_name = designation = skill_title = value
+          full_name = value.split
+          space = value.match(' ')
+          unless space.nil?
+            if full_name.length == 1
+              first_name = last_name = full_name[0]
+            else
+              first_name = full_name[0]
+              last_name = full_name[1]
+            end
+          end
+
+          @profiles = UserProfile.joins(:user).where('(lower(users.first_name) LIKE ?
+                                                       OR lower(users.last_name) LIKE ?
+                                                       OR lower(user_profiles.designation) LIKE ?)
+                                                       AND users.role != ?', "%#{first_name}%", "%#{last_name}%", "%#{designation}%", 'employer')
+
+          profiles_by_skill = UserProfile.joins({ user: { skills: :users_skills } }).where('lower(skills.title)  LIKE ?', "%#{skill_title}%")
+          @profiles = (@profiles + profiles_by_skill).uniq
+
+          render :index
         end
 
         def show
@@ -45,6 +69,10 @@ module Api
 
         def profiles_params
           params.permit(:page)
+        end
+
+        def search_params
+          params.permit(:search_value)
         end
 
         def profile_params
