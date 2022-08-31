@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_15_105854) do
+ActiveRecord::Schema.define(version: 2022_08_31_105607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -123,6 +123,7 @@ ActiveRecord::Schema.define(version: 2022_08_15_105854) do
     t.bigint "job_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "selection"
     t.index ["job_id"], name: "index_job_applications_on_job_id"
     t.index ["user_id"], name: "index_job_applications_on_user_id"
   end
@@ -204,8 +205,8 @@ ActiveRecord::Schema.define(version: 2022_08_15_105854) do
     t.text "contact_info", default: "", null: false
     t.string "contact_email"
     t.string "expertises", default: [], array: true
-    t.integer "hourly_rate"
     t.string "slug"
+    t.integer "hourly_rate"
     t.index ["slug"], name: "index_user_profiles_on_slug", unique: true
     t.index ["user_id"], name: "index_user_profiles_on_user_id"
   end
