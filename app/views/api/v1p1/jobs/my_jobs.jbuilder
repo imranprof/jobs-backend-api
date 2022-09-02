@@ -14,8 +14,10 @@ json.jobs @jobs.all do |job|
       json.email applicant.email
       json.avatar request.base_url.concat(url_for(applicant.user_profile.avatar))
       applicant.job_applications.each do |application|
-        @application_id = application.id if application.job_id == job.id
-        @short_list = application.selection if application.user.id == applicant.id
+        if application.job_id == job.id
+          @application_id = application.id
+          @short_list = application.selection
+        end
       end
       json.application_id @application_id
       json.short_list @short_list
