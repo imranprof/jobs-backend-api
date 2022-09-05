@@ -38,7 +38,7 @@ module Api
       end
 
       def apply
-        unless JobApplication.new(user_id: current_user.id, job_id: job_params[:id].to_i, selection: false).save
+        unless JobApplication.new(user_id: current_user.id, job_id: job_params[:id].to_i, selection: false, cover_letter: job_application_param[:cover_letter]).save
           @error = 'Failed to apply for the job'
           render :error, status: :unprocessable_entity and return
         end
@@ -83,7 +83,7 @@ module Api
       private
 
       def job_application_param
-        params.require(:job_application).permit(%i[id selection])
+        params.require(:job_application).permit(%i[id selection cover_letter])
       end
 
       def job_params
