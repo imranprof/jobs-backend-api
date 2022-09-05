@@ -17,10 +17,12 @@ json.jobs @jobs.all do |job|
         if application.job_id == job.id
           @application_id = application.id
           @short_list = application.selection
+          @cover_letter = application.cover_letter
         end
       end
       json.application_id @application_id
       json.short_list @short_list
+      json.cover_letter @cover_letter
     end
   else
     job.job_applications.each do |application|
