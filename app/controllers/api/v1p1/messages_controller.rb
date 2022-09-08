@@ -2,10 +2,17 @@ module Api
   module V1p1
     class MessagesController < ApplicationController
 
-      before_action :authenticate_request, only: %i[send_message show_threads]
+      before_action :authenticate_request, only: %i[send_message show_threads private_conversation]
 
       def show_threads
         @threads = current_user.message_threads
+      end
+
+      def private_conversation
+        id = current_user.id
+        message_id = message_params[:id]
+        @threads = Message.where('(sender_id = ?  OR recipient_id = ? ) and parent_message_id = ?', id, id, message_id)
+        render :show_threads
       end
 
       def send_message
@@ -24,7 +31,7 @@ module Api
       private
 
       def message_params
-        params.require(:message).permit(%i[body recipient_id])
+        params.require(:message).permit(%i[id body recipient_id])
       end
 
     end
