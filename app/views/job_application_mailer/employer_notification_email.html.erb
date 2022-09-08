@@ -1,0 +1,9 @@
+<p>
+  Hello, <%= @job_application.job.employer.first_name + ' ' + @job_application.job.employer.last_name %>
+</p>
+
+<p>
+  <%= @job_application.user.first_name + ' ' +  @job_application.user.last_name %> applied for your <%= @job_application.job.title %> job.
+</p>
+
+<p>Thanks.</p>
