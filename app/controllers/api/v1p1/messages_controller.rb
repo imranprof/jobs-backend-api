@@ -5,6 +5,7 @@ module Api
       before_action :authenticate_request, only: %i[send_message show_threads private_conversation]
 
       def show_threads
+        @current_user = current_user
         @threads = current_user.message_threads
       end
 
