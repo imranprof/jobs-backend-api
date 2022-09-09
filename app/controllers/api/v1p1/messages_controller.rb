@@ -16,7 +16,6 @@ module Api
       end
 
       def send_message
-        raise current_user.inspect
         if current_user.id == message_params[:recipient_id]
           @error = 'message sender and receiver are same'
           render :error, status: :unprocessable_entity and return
