@@ -8,4 +8,5 @@ json.all_threads @threads do |thread|
   json.sender_name  "#{thread.sender.first_name} #{thread.sender.last_name}"
   json.recipient_name "#{thread.recipient.first_name} #{thread.recipient.last_name}"
   json.logged_in_user_id @current_user.id
+  json.sender_avatar request.base_url.concat(url_for(thread.sender.user_profile.avatar))
 end
