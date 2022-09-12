@@ -11,8 +11,13 @@ module Api
 
       def private_conversation
         message_id = message_params[:id]
-        message = Message.find(message_id)
-        @threads = message.children
+        @message = current_user.sent_messages.find_by(id: message_id)
+        @message = current_user.received_messages.find_by(id: message_id) if @message.nil?
+        if @message.nil?
+          @error = 'No message found'
+          render :error, status: :unprocessable_entity and return
+        end
+        @threads = @message.children
         render :show_threads
       end
 
