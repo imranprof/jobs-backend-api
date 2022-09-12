@@ -17,7 +17,9 @@ module Api
           @error = 'No message found'
           render :error, status: :unprocessable_entity and return
         end
-        @threads = @message.children
+        @threads = []
+        @threads.append(@message) if @message.parent_message_id.nil?
+        @threads += @message.children.order('created_at ASC')
         render :show_threads
       end
 
