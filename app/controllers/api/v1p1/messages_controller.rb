@@ -10,9 +10,9 @@ module Api
       end
 
       def private_conversation
-        id = current_user.id
         message_id = message_params[:id]
-        @threads = Message.where('(sender_id = ?  OR recipient_id = ? ) and parent_message_id = ?', id, id, message_id)
+        message = Message.find(message_id)
+        @threads = message.children
         render :show_threads
       end
 
