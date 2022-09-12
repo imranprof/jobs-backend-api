@@ -24,11 +24,11 @@ module Api
       end
 
       def send_message
-        if current_user.id == message_params[:recipient_id]
+        if current_user.id == send_message_params[:recipient_id]
           @error = 'message sender and receiver are same'
           render :error, status: :unprocessable_entity and return
         end
-        unless current_user.sent_messages.new(body: message_params[:body], recipient_id: message_params[:recipient_id]).save
+        unless current_user.sent_messages.new(send_message_params).save
           @error = 'Failed to send message'
           render :error, status: :unprocessable_entity and return
         end
@@ -37,8 +37,12 @@ module Api
 
       private
 
+      def send_message_params
+        params.require(:message).permit(%i[body recipient_id parent_message_id])
+      end
+
       def message_params
-        params.require(:message).permit(%i[id body recipient_id])
+        params.require(:message).permit(%i[id])
       end
 
     end
