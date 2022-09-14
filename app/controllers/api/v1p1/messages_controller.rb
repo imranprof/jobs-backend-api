@@ -18,8 +18,8 @@ module Api
           render :error, status: :unprocessable_entity and return
         end
         @threads = []
+        @threads += @message.children.order('created_at DESC')
         @threads.append(@message) if @message.parent_message_id.nil?
-        @threads += @message.children.order('created_at ASC')
         render :show_threads
       end
 
