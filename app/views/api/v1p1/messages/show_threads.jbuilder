@@ -10,4 +10,5 @@ json.all_threads @threads do |thread|
   json.logged_in_user_id @current_user.id
   json.sender_avatar request.base_url.concat(url_for(thread.sender.user_profile.avatar))
   json.recipient_avatar request.base_url.concat(url_for(thread.recipient.user_profile.avatar))
+  json.date_time thread.created_at
 end
