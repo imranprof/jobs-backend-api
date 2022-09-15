@@ -137,6 +137,7 @@ ActiveRecord::Schema.define(version: 2022_09_07_122132) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "pay_type"
     t.index ["user_id"], name: "index_jobs_on_user_id"
   end
 

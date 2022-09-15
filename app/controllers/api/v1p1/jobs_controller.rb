@@ -46,7 +46,14 @@ module Api
       end
 
       def job_seeker_selection
+        @email = job_application_param[:email]
         @job_application = JobApplication.find_by(id: job_application_param[:id])
+
+        if @email
+          JobApplicationMailer.job_seeker_notification_email(@job_application).deliver_now
+          head :ok and return
+        end
+
         @has_job = current_user.jobs.find_by(id: @job_application.job_id)
         if @has_job && @job_application&.update(job_application_param)
           head :ok
@@ -83,11 +90,11 @@ module Api
       private
 
       def job_application_param
-        params.require(:job_application).permit(%i[id selection cover_letter])
+        params.require(:job_application).permit(%i[id selection cover_letter email])
       end
 
       def job_params
-        params.require(:job).permit(%i[id title description location skills])
+        params.require(:job).permit(%i[id title description location skills pay_type])
       end
 
       def set_job
