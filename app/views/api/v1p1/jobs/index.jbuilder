@@ -10,4 +10,5 @@ json.jobs @jobs do |job|
   json.pay_type job.pay_type
   json.total_applied job.applicants.count
   json.created_at job.created_at
+  json.budget job.budget
 end

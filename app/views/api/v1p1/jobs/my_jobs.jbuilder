@@ -10,6 +10,7 @@ json.jobs @jobs.all do |job|
   json.employer_id job.user_id
   json.total_applied job.applicants.count
   json.created_at job.created_at
+  json.budget job.budget
   if @is_employer
     json.applicants job.applicants do |applicant|
       json.profile_slug applicant.user_profile.slug
