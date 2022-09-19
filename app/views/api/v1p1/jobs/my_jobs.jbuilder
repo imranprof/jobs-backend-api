@@ -21,11 +21,13 @@ json.jobs @jobs.all do |job|
           @application_id = application.id
           @short_list = application.selection
           @cover_letter = application.cover_letter
+          @bid_rate = application.bid_rate
         end
       end
       json.application_id @application_id
       json.short_list @short_list
       json.cover_letter @cover_letter
+      json.bid_rate @bid_rate
     end
   else
     job.job_applications.each do |application|
