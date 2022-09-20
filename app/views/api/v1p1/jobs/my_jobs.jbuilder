@@ -32,8 +32,10 @@ json.jobs @jobs.all do |job|
   else
     job.job_applications.each do |application|
       @short_list = application.selection if application.user.id == @user_id
+      @bidding_rate = application.bid_rate if application.user.id == @user_id
     end
     json.short_list @short_list
+    json.bidding_rate @bidding_rate
   end
 
 end
