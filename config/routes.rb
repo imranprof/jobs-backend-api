@@ -26,6 +26,13 @@ Rails.application.routes.draw do
           patch 'employee-select', to: 'jobs#job_seeker_selection'
         end
       end
+      resources :messages, only: %i[index create] do
+        collection do
+          post 'send_message', to: 'messages#send_message'
+          post 'show_threads', to: 'messages#show_threads'
+          post 'private_conversation', to: 'messages#private_conversation'
+        end
+      end
     end
   end
 end
