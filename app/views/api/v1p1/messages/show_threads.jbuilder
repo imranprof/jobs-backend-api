@@ -10,5 +10,12 @@ json.all_threads @threads do |thread|
   json.logged_in_user_id @current_user.id
   json.sender_avatar request.base_url.concat(url_for(thread.sender.user_profile.avatar))
   json.recipient_avatar request.base_url.concat(url_for(thread.recipient.user_profile.avatar))
+  if thread.parent_message_id.nil?
+    @parent_message_unread = false
+    @parent_message_unread = true if thread.has_read == false && thread.recipient_id == @current_user.id
+    @unread_count = thread.children.where('has_read = ? AND recipient_id = ?', false, @current_user.id).count
+    @unread_count += 1 if @parent_message_unread
+    json.unread_count @unread_count
+  end
   json.date_time thread.created_at
 end
