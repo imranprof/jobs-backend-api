@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+@total_unread_count = 0
 json.all_threads @threads do |thread|
   json.id thread.id
   json.body thread.body
@@ -16,6 +17,9 @@ json.all_threads @threads do |thread|
     @unread_count = thread.children.where('has_read = ? AND recipient_id = ?', false, @current_user.id).count
     @unread_count += 1 if @parent_message_unread
     json.unread_count @unread_count
+    @total_unread_count += @unread_count
   end
   json.date_time thread.created_at
 end
+
+json.total_unread_count = @total_unread_count if @total_unread_count != 0
