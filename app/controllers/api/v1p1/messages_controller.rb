@@ -2,7 +2,7 @@ module Api
   module V1p1
     class MessagesController < ApplicationController
 
-      before_action :authenticate_request, only: %i[send_message show_threads private_conversation]
+      before_action :authenticate_request, only: %i[send_message show_threads private_conversation update]
 
       def show_threads
         @current_user = current_user
@@ -35,6 +35,17 @@ module Api
         head :ok
       end
 
+      def update
+        message_id = message_params[:id]
+        @message = current_user.received_messages.find_by(id: message_id)
+        if @message&.update(message_params)
+          head :ok
+        else
+          @error = 'Failed to update message read status'
+          render :error, status: :unprocessable_entity
+        end
+      end
+
       private
 
       def send_message_params
@@ -42,7 +53,7 @@ module Api
       end
 
       def message_params
-        params.require(:message).permit(%i[id])
+        params.require(:message).permit(%i[id has_read])
       end
 
     end
