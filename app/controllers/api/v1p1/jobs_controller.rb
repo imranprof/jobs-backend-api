@@ -72,6 +72,15 @@ module Api
                 end
       end
 
+      def search
+        value = search_params[:search_value].downcase
+
+        @jobs = Job.where("lower(array_to_string(skills, '||')) LIKE ?
+                           OR lower(title) LIKE ?
+                           OR lower(description) LIKE ?", "%#{value}%", "%#{value}%", "%#{value}%")
+        render :index
+      end
+
       def authenticate_job_request
         @is_employer = current_user.role == 'employer'
         return if params[:action] == 'my_jobs'
@@ -95,6 +104,10 @@ module Api
 
       def job_params
         params.require(:job).permit(%i[id title description location skills pay_type budget])
+      end
+
+      def search_params
+        params.permit(:search_value)
       end
 
       def set_job
