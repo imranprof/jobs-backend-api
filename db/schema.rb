@@ -143,6 +143,15 @@ ActiveRecord::Schema.define(version: 2022_09_19_123412) do
     t.index ["user_id"], name: "index_jobs_on_user_id"
   end
 
+  create_table "messages", force: :cascade do |t|
+    t.text "body"
+    t.integer "sender_id", null: false
+    t.integer "recipient_id", null: false
+    t.integer "parent_message_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "projects", force: :cascade do |t|
     t.string "title", null: false
     t.text "description", null: false
@@ -265,6 +274,8 @@ ActiveRecord::Schema.define(version: 2022_09_19_123412) do
   add_foreign_key "job_applications", "jobs"
   add_foreign_key "job_applications", "users"
   add_foreign_key "jobs", "users"
+  add_foreign_key "messages", "users", column: "recipient_id"
+  add_foreign_key "messages", "users", column: "sender_id"
   add_foreign_key "projects", "users"
   add_foreign_key "social_links", "user_profiles"
   add_foreign_key "user_contacts", "users"

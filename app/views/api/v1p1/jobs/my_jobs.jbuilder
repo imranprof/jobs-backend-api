@@ -13,6 +13,7 @@ json.jobs @jobs.all do |job|
   json.budget job.budget
   if @is_employer
     json.applicants job.applicants do |applicant|
+      json.applicant_id applicant.id
       json.profile_slug applicant.user_profile.slug
       json.email applicant.email
       json.avatar request.base_url.concat(url_for(applicant.user_profile.avatar))
