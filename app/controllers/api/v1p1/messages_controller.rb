@@ -2,7 +2,7 @@ module Api
   module V1p1
     class MessagesController < ApplicationController
 
-      before_action :authenticate_request, only: %i[send_message show_threads private_conversation update]
+      before_action :authenticate_request, only: %i[send_message show_threads private_conversation update_message_status]
 
       def show_threads
         @current_user = current_user
@@ -35,14 +35,23 @@ module Api
         head :ok
       end
 
-      def update
+      def update_message_status
         message_id = message_params[:id]
-        @message = current_user.received_messages.find_by(id: message_id)
-        if @message&.update(message_params)
-          head :ok
-        else
+        @parent_message = current_user.sent_messages.find_by(id: message_id)
+        @parent_message = current_user.received_messages.find_by(id: message_id) if @parent_message.nil?
+
+        if @parent_message.nil?
           @error = 'Failed to update message read status'
-          render :error, status: :unprocessable_entity
+          render :error, status: :unprocessable_entity and return
+        else
+          if !@parent_message.has_read? && @parent_message.recipient_id == current_user.id
+            @parent_message&.update_column(:has_read, true)
+          end
+          @messages = @parent_message.children.where('recipient_id = ? AND has_read = ?', current_user.id, false)
+          @messages.each do |message|
+            message&.update_column(:has_read, true)
+          end
+          head :ok
         end
       end
 
@@ -53,7 +62,7 @@ module Api
       end
 
       def message_params
-        params.require(:message).permit(%i[id has_read])
+        params.require(:message).permit(%i[id])
       end
 
     end
