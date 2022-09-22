@@ -45,7 +45,7 @@ module Api
           render :error, status: :unprocessable_entity and return
         else
           if !@parent_message.has_read? && @parent_message.recipient_id == current_user.id
-            @parent_message&.update_column(:has_read, true)
+            @parent_message.update_column(:has_read, true)
           end
           @messages = @parent_message.children.where('recipient_id = ? AND has_read = ?', current_user.id, false)
           @messages.each do |message|
