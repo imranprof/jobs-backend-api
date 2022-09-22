@@ -22,4 +22,4 @@ json.all_threads @threads do |thread|
   json.date_time thread.created_at
 end
 
-json.total_notification_count @total_notification_count if @total_notification_count != 0
+json.total_notification_count @total_notification_count
