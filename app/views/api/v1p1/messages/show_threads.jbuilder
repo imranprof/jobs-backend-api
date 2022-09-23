@@ -11,6 +11,7 @@ json.all_threads @threads do |thread|
   json.logged_in_user_id @current_user.id
   json.sender_avatar request.base_url.concat(url_for(thread.sender.user_profile.avatar))
   json.recipient_avatar request.base_url.concat(url_for(thread.recipient.user_profile.avatar))
+  json.has_read thread.has_read
   if thread.parent_message_id.nil?
     @parent_message_unread = false
     @parent_message_unread = true if thread.has_read == false && thread.recipient_id == @current_user.id
