@@ -32,6 +32,7 @@ Rails.application.routes.draw do
           post 'send_message', to: 'messages#send_message'
           post 'show_threads', to: 'messages#show_threads'
           post 'private_conversation', to: 'messages#private_conversation'
+          patch 'message', to: 'messages#update_message_status'
         end
       end
     end
