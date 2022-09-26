@@ -8,6 +8,9 @@ json.job do
   json.description @job.description
   json.location @job.location
   json.skills @job.skills
+  json.pay_type @job.pay_type
   json.employer_id @job.user_id
   json.total_applied @job.applicants.count
+  json.created_at @job.created_at
+  json.budget @job.budget
 end
