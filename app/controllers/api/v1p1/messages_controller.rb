@@ -28,10 +28,12 @@ module Api
           @error = 'message sender and receiver are same'
           render :error, status: :unprocessable_entity and return
         end
-        unless current_user.sent_messages.new(send_message_params).save
+        message = current_user.sent_messages.new(send_message_params)
+        unless message.save
           @error = 'Failed to send message'
           render :error, status: :unprocessable_entity and return
         end
+        ActionCable.server.broadcast 'privateChat_channel', message
         head :ok
       end
 
