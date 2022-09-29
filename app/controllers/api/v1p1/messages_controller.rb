@@ -44,7 +44,7 @@ module Api
 
         if @parent_message.nil?
           @error = 'Failed to update message read status'
-          render :error, status: :unprocessable_entity and return
+          render :error, status: :unprocessable_entity
         else
           if !@parent_message.has_read? && @parent_message.recipient_id == current_user.id
             @parent_message.update_column(:has_read, true)
