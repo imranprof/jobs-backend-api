@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_21_141311) do
+ActiveRecord::Schema.define(version: 2022_10_03_101533) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -126,6 +126,7 @@ ActiveRecord::Schema.define(version: 2022_09_21_141311) do
     t.boolean "selection"
     t.text "cover_letter", null: false
     t.integer "bid_rate"
+    t.boolean "hire"
     t.index ["job_id"], name: "index_job_applications_on_job_id"
     t.index ["user_id"], name: "index_job_applications_on_user_id"
   end
