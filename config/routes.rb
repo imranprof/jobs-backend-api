@@ -24,6 +24,7 @@ Rails.application.routes.draw do
           post 'apply', to: 'jobs#apply'
           post 'my-jobs', to: 'jobs#my_jobs'
           patch 'employee-select', to: 'jobs#job_seeker_selection'
+          patch 'hire_job_seeker', to: 'jobs#hire_job_seeker'
           get 'search', to: 'jobs#search'
         end
       end
