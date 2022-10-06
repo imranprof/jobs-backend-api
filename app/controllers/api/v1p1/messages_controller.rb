@@ -33,13 +33,6 @@ module Api
           render :error, status: :unprocessable_entity and return
         end
 
-        @messages = Message.last.parent_threads
-        @messages.each do |message|
-          msg = Message.find_by(id: message.id).children.last
-          if !msg.has_read && current_user.id != msg.recipient_id
-            MessageMailer.message_notification_email(msg).deliver_now
-          end
-        end
         head :ok
       end
 
