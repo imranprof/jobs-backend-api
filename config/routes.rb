@@ -26,6 +26,7 @@ Rails.application.routes.draw do
           patch 'employee-select', to: 'jobs#job_seeker_selection'
           patch 'hire_job_seeker', to: 'jobs#hire_job_seeker'
           get 'search', to: 'jobs#search'
+          get 'job_application/:id', to: 'jobs#job_application_show'
         end
       end
       resources :messages, only: %i[index create] do
