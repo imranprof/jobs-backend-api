@@ -10,6 +10,7 @@ json.job_application_details do
   json.hire_rate @job_application.hire_rate[0]
   json.applicant_details do
     json.name "#{@job_application.user.first_name} #{@job_application.user.last_name}"
+    json.profile_slug @job_application.user.user_profile.slug
     json.avatar request.base_url.concat(url_for(@job_application.user.user_profile.avatar))
   end
   json.related_job do
