@@ -3,7 +3,7 @@
 module Api
   module V1p1
     class JobsController < ApplicationController
-      prepend_before_action :authenticate_request, only: %i[create update destroy apply my_jobs job_seeker_selection hire_job_seeker]
+      prepend_before_action :authenticate_request, only: %i[create update destroy apply my_jobs job_seeker_selection hire_job_seeker job_application_show]
       before_action :authenticate_job_request, only: %i[create update destroy apply my_jobs job_seeker_selection hire_job_seeker]
       before_action :set_job, only: %i[show]
 
@@ -43,6 +43,20 @@ module Api
           render :error, status: :unprocessable_entity and return
         end
         head :ok
+      end
+
+      def job_application_show
+        @application = JobApplication.find_by(id: params[:id])
+        unless @application
+          @error = 'Job Application not found'
+          render :error, status: :not_found and return
+        end
+        @job_application = current_user.jobs.find_by(id: @application.job_id)&.job_applications&.find_by(id: @application.id)
+        @job_application = current_user.job_applications.find_by(id: @application.id) if @job_application.nil?
+        unless @job_application
+          @error = 'You are not authorized for this job application'
+          render :error, status: :unprocessable_entity
+        end
       end
 
       def hire_job_seeker
