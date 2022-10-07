@@ -17,5 +17,6 @@ json.job_application_details do
   json.related_job do
     json.title @job_application.job.title
     json.description @job_application.job.description
+    json.pay_type @job_application.job.pay_type
   end
 end
