@@ -71,6 +71,7 @@ module Api
         pay_type = job_application_param[:pay_type]
         if @job_application&.update_columns(hire: true, hire_rate: hire_rate, pay_type: pay_type)
           head :ok
+          JobApplicationMailer.job_seeker_hire_notification_email(@job_application).deliver_now
         else
           @error = 'Failed to hire or you are not authorized'
           render :error, status: :unprocessable_entity

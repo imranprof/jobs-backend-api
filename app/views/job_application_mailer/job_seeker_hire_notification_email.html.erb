@@ -1,0 +1,36 @@
+<div style="max-width: 600px; padding: 0px 40px 0px 40px;">
+
+  <div style="padding: 20px;background: #eaeaea;max-width: 600px;">
+    <p>Contact Action Taken
+      By <%= @job_application.job.employer.first_name + ' ' + @job_application.job.employer.last_name %></p>
+    <br/>
+    <p style="  overflow: hidden;display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;"><%= @job_application.job.description %></p>
+  </div>
+</div>
+<div style="max-width: 600px; padding: 40px;">
+  <h3>Offer details</h3>
+  <hr>
+  <h4>Client</h4>
+  <p><%= @job_application.job.employer.first_name + ' ' + @job_application.job.employer.last_name %></p>
+  <hr>
+  <h4>Freelancer</h4>
+  <p><%= @job_application.user.first_name + ' ' + @job_application.user.last_name %></p>
+  <hr>
+  <h4>Job Posting</h4>
+  <p><%= @job_application.job.title %></p>
+  <hr>
+  <% if @job_application.pay_type == 'Pay a fixed price' %>
+    <h4>Fixed Rate</h4>
+    <p>$<%= @job_application.hire_rate[0] %></p>
+  <% else %>
+    <h4>Hourly Rate</h4>
+    <p>$<%= @job_application.hire_rate[0] %>/hr</p>
+  <% end %>
+  <hr>
+  <br/>
+  <button>View Offer</button>
+  <br/>
+  <br/>
+  <p>Thanks for your time, </p>
+  <p>The SeekRightJobs Team</p>
+</div>
