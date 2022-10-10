@@ -2,7 +2,8 @@
 
   <div style="padding: 20px;background: #eaeaea;max-width: 600px;">
     <p>Contact Action Taken
-      By <%= @job_application.job.employer.first_name + ' ' + @job_application.job.employer.last_name[0] %>.</p>
+      By <%= @job_application.job.employer.first_name.capitalize + ' ' + @job_application.job.employer.last_name[0].upcase %>
+      .</p>
     <p style="  overflow: hidden;display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;"><%= @job_application.job.description %></p>
   </div>
 </div>
@@ -10,10 +11,11 @@
   <h3>Offer details</h3>
   <hr>
   <h4>Client</h4>
-  <p><%= @job_application.job.employer.first_name + ' ' + @job_application.job.employer.last_name %></p>
+  <p><%= @job_application.job.employer.first_name.capitalize + ' ' + @job_application.job.employer.last_name[0].upcase %>
+    .</p>
   <hr>
   <h4>Freelancer</h4>
-  <p><%= @job_application.user.first_name + ' ' + @job_application.user.last_name %></p>
+  <p><%= @job_application.user.first_name.capitalize + ' ' + @job_application.user.last_name[0].upcase %>.</p>
   <hr>
   <h4>Job Posting</h4>
   <p><%= @job_application.job.title %></p>
