@@ -2,8 +2,7 @@
 
   <div style="padding: 20px;background: #eaeaea;max-width: 600px;">
     <p>Contact Action Taken
-      By <%= @job_application.job.employer.first_name + ' ' + @job_application.job.employer.last_name %></p>
-    <br/>
+      By <%= @job_application.job.employer.first_name + ' ' + @job_application.job.employer.last_name[0] %>.</p>
     <p style="  overflow: hidden;display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;"><%= @job_application.job.description %></p>
   </div>
 </div>
