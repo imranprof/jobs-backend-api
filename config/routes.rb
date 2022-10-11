@@ -27,6 +27,13 @@ Rails.application.routes.draw do
           get 'search', to: 'jobs#search'
         end
       end
+
+      resources :job_applications, only: %i[index] do
+        collection do
+          get 'job-offers', to: 'job_applications#show_job_offers'
+        end
+      end
+
       resources :messages, only: %i[index create] do
         collection do
           post 'send_message', to: 'messages#send_message'
