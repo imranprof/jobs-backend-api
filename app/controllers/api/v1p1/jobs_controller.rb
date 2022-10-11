@@ -3,8 +3,8 @@
 module Api
   module V1p1
     class JobsController < ApplicationController
-      prepend_before_action :authenticate_request, only: %i[create update destroy apply my_jobs job_seeker_selection]
-      before_action :authenticate_job_request, only: %i[create update destroy apply my_jobs job_seeker_selection]
+      prepend_before_action :authenticate_request, only: %i[create update destroy apply my_jobs job_seeker_selection hire_job_seeker job_application_show]
+      before_action :authenticate_job_request, only: %i[create update destroy apply my_jobs job_seeker_selection hire_job_seeker]
       before_action :set_job, only: %i[show]
 
       def index
@@ -43,6 +43,39 @@ module Api
           render :error, status: :unprocessable_entity and return
         end
         head :ok
+      end
+
+      def job_application_show
+        @application = JobApplication.find_by(id: params[:id])
+        unless @application
+          @error = 'Job Application not found'
+          render :error, status: :not_found and return
+        end
+        @job_application = current_user.jobs.find_by(id: @application.job_id)&.job_applications&.find_by(id: @application.id)
+        @job_application = current_user.job_applications.find_by(id: @application.id) if @job_application.nil?
+        unless @job_application
+          @error = 'You are not authorized for this job application'
+          render :error, status: :unprocessable_entity
+        end
+      end
+
+      def hire_job_seeker
+        application_id = job_application_param[:id]
+        @application = JobApplication.find_by(id: application_id)
+        unless @application
+          @error = 'Job Application not found'
+          render :error, status: :not_found and return
+        end
+        @job_application = current_user.jobs.find_by(id: @application&.job_id)&.job_applications&.find_by(id: application_id)
+        hire_rate = job_application_param[:hire_rate]
+        pay_type = job_application_param[:pay_type]
+        if @job_application&.update_columns(hire: true, hire_rate: hire_rate, pay_type: pay_type)
+          head :ok
+          JobApplicationMailer.job_seeker_hire_notification_email(@job_application).deliver_now
+        else
+          @error = 'Failed to hire or you are not authorized'
+          render :error, status: :unprocessable_entity
+        end
       end
 
       def job_seeker_selection
@@ -87,6 +120,7 @@ module Api
         return if params[:action] == 'apply' && !@is_employer
         return if params[:action] == 'create' && @is_employer
         return if params[:action] == 'job_seeker_selection' && @is_employer
+        return if params[:action] == 'hire_job_seeker' && @is_employer
 
         if params[:action] == 'destroy' || params[:action] == 'update'
           return if current_user.jobs.find_by(id: job_params[:id].to_i) && @is_employer
@@ -99,7 +133,7 @@ module Api
       private
 
       def job_application_param
-        params.require(:job_application).permit(%i[id selection cover_letter bid_rate email])
+        params.require(:job_application).permit(%i[id selection cover_letter bid_rate email hire_rate pay_type])
       end
 
       def job_params
