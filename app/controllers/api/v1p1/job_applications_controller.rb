@@ -3,8 +3,7 @@
 module Api
   module V1p1
     class JobApplicationsController < ApplicationController
-      prepend_before_action :authenticate_request, only: %i[job_offers show_job_offer]
-      before_action :authenticate_application_request, only: %i[job_offers show_job_offer]
+      before_action :authenticate_request, only: %i[job_offers show_job_offer accept_hire_offer]
 
       def job_offers
         @job_offers = current_user.job_applications.where('hire = ?', true)
@@ -18,13 +17,25 @@ module Api
         render :error, status: :not_found
       end
 
-      def authenticate_application_request
-        @is_employer = current_user.role == 'employer'
-        return if params[:action] == 'job_offers' && !@is_employer
-        return if params[:action] == 'show_job_offer' && !@is_employer
+      def accept_hire_offer
+        offer_id = job_offer_param[:id]
+        @job_offer = current_user.job_applications.find_by(id: offer_id, hire: true)
+        unless @job_offer
+          @error = 'Job offer not found'
+          render :error, status: :not_found and return
+        end
+        if @job_offer&.update(job_offer_param)
+          head :ok
+        else
+          @error = 'Failed to confirm hire offer or you are not authorized'
+          render :error, status: :unprocessable_entity
+        end
+      end
 
-        @error = 'You can not perform this action'
-        render :error, status: :unauthorized
+      private
+
+      def job_offer_param
+        params.require(:job_offer).permit(%i[id hire_confirmation])
       end
 
     end
