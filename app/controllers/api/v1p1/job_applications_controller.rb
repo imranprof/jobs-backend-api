@@ -11,7 +11,7 @@ module Api
       end
 
       def show_job_offer
-        @job_offer = current_user.job_applications.find_by(id: params[:id])
+        @job_offer = current_user.job_applications.find_by(id: params[:id], hire: true)
         return if @job_offer
 
         @error = 'Job offer not found'
