@@ -27,12 +27,8 @@ Rails.application.routes.draw do
           patch 'hire_job_seeker', to: 'jobs#hire_job_seeker'
           get 'search', to: 'jobs#search'
           get 'job_application/:id', to: 'jobs#job_application_show'
-        end
-      end
-
-      resources :job_applications, only: %i[index] do
-        collection do
-          get 'job-offers', to: 'job_applications#show_job_offers'
+          get 'offers', to: 'job_applications#job_offers'
+          get 'offer/:id', to: 'job_applications#show_job_offer'
         end
       end
 
