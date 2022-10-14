@@ -1,0 +1,20 @@
+<p>
+  Hello, <%= @job_application.job.employer.first_name + ' ' + @job_application.job.employer.last_name %>
+</p>
+
+
+
+<% if @job_application.hire_confirmation %>
+  <p>
+    <%= @job_application.user.first_name + ' ' + @job_application.user.last_name %> accepted your
+    offer on <%= @job_application.job.title %> job.
+  </p>
+<% else %>
+  <p>
+    <%= @job_application.user.first_name + ' ' + @job_application.user.last_name %> declined your
+    offer on <%= @job_application.job.title %> job.
+  </p>
+<% end %>
+
+<p>Thanks for your time, </p>
+<p>The SeekRightJobs Team</p>

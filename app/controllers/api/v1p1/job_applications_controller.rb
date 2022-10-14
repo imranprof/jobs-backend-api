@@ -25,6 +25,7 @@ module Api
           render :error, status: :not_found and return
         end
         if @job_offer&.update(job_offer_param)
+          JobApplicationMailer.hire_response_notification_email(@job_offer).deliver_now
           head :ok
         else
           @error = 'Failed to confirm hire offer or you are not authorized'
