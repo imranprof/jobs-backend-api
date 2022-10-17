@@ -23,10 +23,12 @@ json.jobs @jobs.all do |job|
           @short_list = application.selection
           @cover_letter = application.cover_letter
           @bid_rate = application.bid_rate
+          @hire_confirmation = application.hire_confirmation
         end
       end
       json.application_id @application_id
       json.short_list @short_list
+      json.hire_confirmation @hire_confirmation
       json.cover_letter @cover_letter
       json.bid_rate @bid_rate
     end

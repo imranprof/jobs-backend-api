@@ -25,10 +25,14 @@ Rails.application.routes.draw do
           post 'my-jobs', to: 'jobs#my_jobs'
           patch 'employee-select', to: 'jobs#job_seeker_selection'
           patch 'hire_job_seeker', to: 'jobs#hire_job_seeker'
+          patch 'accept-hire-offer', to: 'job_applications#accept_hire_offer'
           get 'search', to: 'jobs#search'
           get 'job_application/:id', to: 'jobs#job_application_show'
+          get 'offers', to: 'job_applications#job_offers'
+          get 'offer/:id', to: 'job_applications#show_job_offer'
         end
       end
+
       resources :messages, only: %i[index create] do
         collection do
           post 'send_message', to: 'messages#send_message'
