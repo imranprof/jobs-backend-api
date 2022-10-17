@@ -3,7 +3,7 @@
 module Api
   module V1p1
     class JobApplicationsController < ApplicationController
-      before_action :authenticate_request, only: %i[job_offers show_job_offer accept_hire_offer]
+      before_action :authenticate_request, only: %i[job_offers show_job_offer accept_hire_offer best_matches_jobs]
 
       def job_offers
         @job_offers = current_user.job_applications.where('hire = ?', true)
@@ -15,6 +15,14 @@ module Api
 
         @error = 'Job offer not found'
         render :error, status: :not_found
+      end
+
+      def best_matches_jobs
+        @jobs = []
+        current_user.skills.each do |skill|
+          @jobs += Job.where("lower(array_to_string(skills, '||')) LIKE ? ", "%#{skill.title.downcase}%")
+        end
+        @jobs = @jobs.uniq.take(10)
       end
 
       def accept_hire_offer
