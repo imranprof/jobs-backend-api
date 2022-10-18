@@ -3,7 +3,7 @@
 module Api
   module V1p1
     class JobsController < ApplicationController
-      prepend_before_action :authenticate_request, only: %i[create update destroy apply my_jobs job_seeker_selection hire_job_seeker job_application_show]
+      prepend_before_action :authenticate_request, only: %i[create update destroy apply my_jobs job_seeker_selection hire_job_seeker job_application_show best_matches_jobs most_recent_jobs]
       before_action :authenticate_job_request, only: %i[create update destroy apply my_jobs job_seeker_selection hire_job_seeker]
       before_action :set_job, only: %i[show]
 
@@ -128,6 +128,16 @@ module Api
 
         @error = 'You can not perform this action'
         render :error, status: :unauthorized
+      end
+
+      def best_matches_jobs
+        user = current_user
+        @best_matches_jobs = Job.find_best_jobs_by_skills(user)
+      end
+
+      def most_recent_jobs
+        user = current_user
+        @most_recent_jobs = Job.find_recent_jobs_by_skills(user)
       end
 
       private
