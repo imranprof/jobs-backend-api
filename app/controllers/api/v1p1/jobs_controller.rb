@@ -137,7 +137,7 @@ module Api
       end
 
       def job_params
-        params.require(:job).permit(%i[id title description location skills pay_type budget])
+        params.require(:job).permit(%i[id title description location skills pay_type budget status])
       end
 
       def search_params
