@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-json.jobs @jobs do |job|
+json.jobs @most_recent_jobs do |job|
   json.id job.id
   json.title job.title
   json.description job.description
