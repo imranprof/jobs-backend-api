@@ -8,7 +8,7 @@ module Api
       before_action :set_job, only: %i[show]
 
       def index
-        @jobs = Job.all
+        @jobs = Job.Published
       end
 
       def show; end
