@@ -137,13 +137,17 @@ module Api
 
       def most_recent_jobs
         user = current_user
-        @most_recent_jobs = Job.find_recent_jobs_by_skills(user)
+        @most_recent_jobs = Job.find_recent_jobs_by_skills(user, jobs_page_params[:page])
       end
 
       private
 
       def job_application_param
         params.require(:job_application).permit(%i[id selection cover_letter bid_rate email hire_rate pay_type])
+      end
+
+      def jobs_page_params
+        params.permit(:page)
       end
 
       def job_params
