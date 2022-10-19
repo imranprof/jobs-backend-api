@@ -30,6 +30,8 @@ Rails.application.routes.draw do
           get 'job_application/:id', to: 'jobs#job_application_show'
           get 'offers', to: 'job_applications#job_offers'
           get 'offer/:id', to: 'job_applications#show_job_offer'
+          get 'best_matches', to: 'jobs#best_matches_jobs'
+          get 'most_recent', to: 'jobs#most_recent_jobs'
         end
       end
 
