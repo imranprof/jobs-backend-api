@@ -105,12 +105,37 @@ module Api
                 end
       end
 
-      def search
+      def search_by_value
         value = search_params[:search_value].downcase
+        Job.where("lower(array_to_string(skills, '||')) LIKE ?
+                            OR lower(title) LIKE ?
+                            OR lower(description) LIKE ?", "%#{value}%", "%#{value}%", "%#{value}%")
+      end
 
-        @jobs = Job.where("lower(array_to_string(skills, '||')) LIKE ?
-                           OR lower(title) LIKE ?
-                           OR lower(description) LIKE ?", "%#{value}%", "%#{value}%", "%#{value}%")
+      def search
+        rates = nil
+        pay_types = nil
+        rates = search_params[:rate][:range] if search_params[:rate].present?
+        pay_types = search_params[:pay_type] if search_params[:pay_type].present?
+        @jobs = []
+        if rates && !pay_types
+          rates.each do |range|
+            min = range[:min]
+            max = range[:max]
+            @jobs += search_by_value.where('? <= ANY(budget) and ? >= ALL(budget)', min, max)
+          end
+
+        elsif rates && pay_types
+          rates.each do |range|
+            min = range[:min]
+            max = range[:max]
+            @jobs += search_by_value.where('? <= ANY(budget) and ? >= ALL(budget)', min, max)
+                                    .where('pay_type = any(array[?])', pay_types)
+          end
+        else
+          @jobs = search_by_value
+        end
+        @jobs = @jobs.uniq
         render :index
       end
 
@@ -155,7 +180,7 @@ module Api
       end
 
       def search_params
-        params.permit(:search_value)
+        params.permit(:search_value, pay_type: [], rate: [range: %i[min max]])
       end
 
       def set_job
