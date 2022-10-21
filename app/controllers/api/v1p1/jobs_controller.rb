@@ -183,7 +183,7 @@ module Api
       end
 
       def search_params
-        params.permit(:search_value, pay_type: [], rate: [range: %i[min max]])
+        params.require(:job).permit(:search_value, pay_type: [], rate: [range: %i[min max]])
       end
 
       def set_job
