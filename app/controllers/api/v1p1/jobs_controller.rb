@@ -132,10 +132,13 @@ module Api
             @jobs += search_by_value.where('? <= ANY(budget) and ? >= ALL(budget)', min, max)
                                     .where('pay_type = any(array[?])', pay_types)
           end
+
+        elsif !rates && pay_types
+          @jobs += search_by_value.where('pay_type = any(array[?])', pay_types)
         else
           @jobs = search_by_value
         end
-        @jobs = @jobs.uniq
+        @jobs = @jobs.uniq(&:id)
         render :index
       end
 
