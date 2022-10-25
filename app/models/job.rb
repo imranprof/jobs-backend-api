@@ -7,7 +7,7 @@ class Job < ApplicationRecord
   scope :by_value, lambda { |value = ''|
                      where("lower(array_to_string(skills, '||')) LIKE ?
                             OR lower(title) LIKE ?
-                            OR lower(description) LIKE ?", "%#{value}%", "%#{value}%", "%#{value}%")
+                            OR lower(description) LIKE ?", "%#{value}%", "%#{value}%", "%#{value}%").Published
                    }
   scope :by_rate, ->(min = 0, max = 0) { where('? <= ANY(budget) and ? >= ALL(budget)', min, max) }
 
