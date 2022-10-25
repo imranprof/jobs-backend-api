@@ -9,7 +9,7 @@ class Job < ApplicationRecord
                             OR lower(title) LIKE ?
                             OR lower(description) LIKE ?", "%#{value}%", "%#{value}%", "%#{value}%").Published
                    }
-  scope :by_rate, ->(min = 0, max = 0) { where('? <= ANY(budget) and ? >= ALL(budget)', min, max) }
+  scope :by_rate, ->(min = 0, max = 0) { where('? <= ANY(budget) and ? >= ANY(budget)', min, max) }
 
   belongs_to :employer, foreign_key: :user_id, class_name: 'User'
   has_many :job_applications, dependent: :destroy
