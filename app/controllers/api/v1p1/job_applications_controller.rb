@@ -25,6 +25,7 @@ module Api
           render :error, status: :not_found and return
         end
         if @job_offer&.update(job_offer_param)
+          @job_offer&.update_columns(contract_status: :InProgress) if @job_offer.hire_confirmation?
           JobApplicationMailer.hire_response_notification_email(@job_offer).deliver_now
           head :ok
         else
