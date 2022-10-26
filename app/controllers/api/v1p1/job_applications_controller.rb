@@ -35,7 +35,8 @@ module Api
       end
 
       def show_ongoing_job_contracts
-        if current_user.role == 'employee'
+        @is_employee = current_user.role == 'employee'
+        if @is_employee
           @job_contracts = current_user.job_applications.InProgress
         else
           @job_contracts = []
