@@ -1,4 +1,6 @@
 class JobApplication < ApplicationRecord
+  enum contract_status: { Pending: 0, InProgress: 1, Closed: 2 }
+
   belongs_to :user
   belongs_to :job
 
