@@ -3,7 +3,7 @@
 module Api
   module V1p1
     class JobApplicationsController < ApplicationController
-      before_action :authenticate_request, only: %i[job_offers show_job_offer accept_hire_offer]
+      before_action :authenticate_request, only: %i[job_offers show_job_offer accept_hire_offer show_ongoing_job_contracts]
 
       def job_offers
         @job_offers = current_user.job_applications.where('hire = ?', true)
@@ -31,6 +31,17 @@ module Api
         else
           @error = 'Failed to confirm hire offer or you are not authorized'
           render :error, status: :unprocessable_entity
+        end
+      end
+
+      def show_ongoing_job_contracts
+        if current_user.role == 'employee'
+          @job_contracts = current_user.job_applications.InProgress
+        else
+          @job_contracts = []
+          current_user.jobs.each do |job|
+            @job_contracts += job.job_applications.InProgress
+          end
         end
       end
 

@@ -35,6 +35,12 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :job_applications do
+        collection do
+          get 'ongoing_job_contracts', to: 'job_applications#show_ongoing_job_contracts'
+        end
+      end
+
       resources :messages, only: %i[index create] do
         collection do
           post 'send_message', to: 'messages#send_message'
