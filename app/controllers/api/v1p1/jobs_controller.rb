@@ -26,6 +26,11 @@ module Api
         @job = current_user.jobs.find_by(id: job_params[:id].to_i)
         if @job&.update(job_params)
           render :show, status: :ok
+          if @job.Canceled?
+            @job.applicants.each do |applicant|
+              JobMailer.job_status_canceled_notification(@job, applicant).deliver_now
+            end
+          end
         else
           @error = 'Failed to update job'
           render :error, status: :unprocessable_entity
