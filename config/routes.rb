@@ -26,7 +26,7 @@ Rails.application.routes.draw do
           patch 'employee-select', to: 'jobs#job_seeker_selection'
           patch 'hire_job_seeker', to: 'jobs#hire_job_seeker'
           patch 'accept-hire-offer', to: 'job_applications#accept_hire_offer'
-          get 'search', to: 'jobs#search'
+          patch 'search', to: 'jobs#search'
           get 'job_application/:id', to: 'jobs#job_application_show'
           get 'offers', to: 'job_applications#job_offers'
           get 'offer/:id', to: 'job_applications#show_job_offer'

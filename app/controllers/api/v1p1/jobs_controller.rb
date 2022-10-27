@@ -26,6 +26,11 @@ module Api
         @job = current_user.jobs.find_by(id: job_params[:id].to_i)
         if @job&.update(job_params)
           render :show, status: :ok
+          if @job.Canceled?
+            @job.applicants.each do |applicant|
+              JobMailer.job_status_canceled_notification(@job, applicant).deliver_now
+            end
+          end
         else
           @error = 'Failed to update job'
           render :error, status: :unprocessable_entity
@@ -105,12 +110,73 @@ module Api
                 end
       end
 
-      def search
-        value = search_params[:search_value].downcase
+      def search_by_nof_applicant(jobs, applicants)
+        @jobs = []
+        jobs.each do |job|
+          applicants.each do |range|
+            min = range[:min]
+            max = range[:max]
+            nof_applicant = job.applicants.count
+            @jobs.append(job) if nof_applicant >= min && nof_applicant <= max
+          end
+        end
+        @jobs.uniq(&:id)
+      end
 
-        @jobs = Job.where("lower(array_to_string(skills, '||')) LIKE ?
-                           OR lower(title) LIKE ?
-                           OR lower(description) LIKE ?", "%#{value}%", "%#{value}%", "%#{value}%")
+      def search_by_value
+        value = search_params[:search_value].downcase
+        Job.by_value(value)
+      end
+
+      def search
+        rates = nil
+        pay_types = nil
+        applicants = nil
+        rates = search_params[:rate][:range] if search_params[:rate].present?
+        pay_types = search_params[:pay_type] if search_params[:pay_type].present?
+        applicants = search_params[:applicant][:range] if search_params[:applicant].present?
+        @jobs = []
+        if rates && !pay_types && !applicants
+          rates.each do |range|
+            min = range[:min]
+            max = range[:max]
+            @jobs += search_by_value.by_rate(min, max)
+          end
+
+        elsif pay_types && !rates && !applicants
+          @jobs += search_by_value.by_pay_type(pay_types)
+
+        elsif applicants && !rates && !pay_types
+          search_by_nof_applicant(search_by_value, applicants)
+
+        elsif rates && pay_types && !applicants
+          rates.each do |range|
+            min = range[:min]
+            max = range[:max]
+            @jobs += search_by_value.by_pay_type(pay_types).by_rate(min, max)
+          end
+
+        elsif rates && applicants && !pay_types
+          rates.each do |range|
+            min = range[:min]
+            max = range[:max]
+            @jobs += search_by_value.by_rate(min, max)
+          end
+          search_by_nof_applicant(@jobs, applicants)
+        elsif pay_types && applicants && !rates
+          @jobs = search_by_value.by_pay_type(pay_types)
+          search_by_nof_applicant(@jobs, applicants)
+        elsif pay_types && applicants && rates
+          rates.each do |range|
+            min = range[:min]
+            max = range[:max]
+            @jobs += search_by_value.by_pay_type(pay_types).by_rate(min, max)
+          end
+          search_by_nof_applicant(@jobs, applicants)
+        else
+          @jobs = search_by_value
+        end
+        @jobs = @jobs.uniq(&:id)
         render :index
       end
 
@@ -155,7 +221,8 @@ module Api
       end
 
       def search_params
-        params.permit(:search_value)
+        params.require(:job).permit(:search_value, pay_type: [], rate: [range: %i[min max]],
+                                                   applicant: [range: %i[min max]])
       end
 
       def set_job
