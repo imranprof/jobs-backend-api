@@ -38,6 +38,7 @@ Rails.application.routes.draw do
       resources :job_applications do
         collection do
           post 'job_contracts', to: 'job_applications#show_job_contracts'
+          get 'job_contract/:id', to: 'job_applications#show_contract'
         end
       end
 
