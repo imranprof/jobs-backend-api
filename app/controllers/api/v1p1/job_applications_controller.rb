@@ -4,7 +4,7 @@ module Api
   module V1p1
     class JobApplicationsController < ApplicationController
       before_action :authenticate_request,
-                    only: %i[job_offers show_job_offer accept_hire_offer show_job_contracts show_contract]
+                    only: %i[job_offers show_job_offer accept_hire_offer show_job_contracts show_contract job_contract_end]
 
       def job_offers
         @job_offers = current_user.job_applications.where('hire = ?', true)
@@ -51,19 +51,32 @@ module Api
       def show_contract
         @is_employee = current_user.role == 'employee'
         @contract = JobApplication.find_by(id: params[:id])
-        if @is_employee
-          @job_contract = current_user.job_applications.find_by(id: params[:id])
-        else
-          @job_contract = current_user.jobs.find_by(id: @contract.job_id)&.job_applications&.find_by(id: @contract.id)
-          unless @job_contract
-            @error = 'You are not authorized for this job contract'
-            render :error, status: :unprocessable_entity
-          end
-        end
+        @job_contract = if @is_employee
+                          current_user.job_applications.find_by(id: params[:id])
+                        else
+                          current_user.jobs.find_by(id: @contract.job_id)&.job_applications&.find_by(id: @contract.id)
+                        end
         return if @job_contract
 
         @error = 'Job contract not found'
         render :error, status: :not_found
+      end
+
+      def job_contract_end
+        @contract = JobApplication.find_by(id: job_contract_param[:id])
+        @job_contract = if @is_employee
+                          current_user.job_applications.find_by(id: params[:id])
+                        else
+                          current_user.jobs.find_by(id: @contract.job_id)&.job_applications&.find_by(id: @contract.id)
+                        end
+
+        if @job_contract&.update_columns(job_contract_param)
+          # JobMailer.contract_end_notification_mail(@job_offer).deliver_now
+          head :ok
+        else
+          @error = 'Failed to change contract status or you are not authorized'
+          render :error, status: :unprocessable_entity
+        end
       end
 
       private
