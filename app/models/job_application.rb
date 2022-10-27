@@ -1,6 +1,8 @@
 class JobApplication < ApplicationRecord
   enum contract_status: { Pending: 0, InProgress: 1, Closed: 2 }
 
+  scope :by_contract_status, ->(status = 0) { where('contract_status = ?', status) }
+
   belongs_to :user
   belongs_to :job
 

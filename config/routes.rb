@@ -37,7 +37,7 @@ Rails.application.routes.draw do
 
       resources :job_applications do
         collection do
-          get 'ongoing_job_contracts', to: 'job_applications#show_ongoing_job_contracts'
+          get 'job_contracts', to: 'job_applications#show_job_contracts'
         end
       end
 
