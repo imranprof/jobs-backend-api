@@ -3,6 +3,14 @@
 class Job < ApplicationRecord
   enum status: { Draft: 0, Published: 1, Closed: 2, Canceled: 3 }
 
+  scope :by_pay_type, ->(pay_types = []) { where('pay_type = any(array[?])', pay_types) }
+  scope :by_value, lambda { |value = ''|
+                     where("lower(array_to_string(skills, '||')) LIKE ?
+                            OR lower(title) LIKE ?
+                            OR lower(description) LIKE ?", "%#{value}%", "%#{value}%", "%#{value}%").Published
+                   }
+  scope :by_rate, ->(min = 0, max = 0) { where('? <= ANY(budget) and ? >= ANY(budget)', min, max) }
+
   belongs_to :employer, foreign_key: :user_id, class_name: 'User'
   has_many :job_applications, dependent: :destroy
   has_many :applicants, through: :job_applications, source: :user
