@@ -63,14 +63,15 @@ module Api
       end
 
       def job_contract_end
+        @is_employee = current_user.role == 'employee'
         @contract = JobApplication.find_by(id: job_contract_param[:id])
         @job_contract = if @is_employee
-                          current_user.job_applications.find_by(id: params[:id])
+                          current_user.job_applications.find_by(id: job_contract_param[:id])
                         else
                           current_user.jobs.find_by(id: @contract.job_id)&.job_applications&.find_by(id: @contract.id)
                         end
 
-        if @job_contract&.update_columns(job_contract_param)
+        if @job_contract&.update(job_contract_param)
           # JobMailer.contract_end_notification_mail(@job_offer).deliver_now
           head :ok
         else
