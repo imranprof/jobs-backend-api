@@ -3,7 +3,8 @@
 module Api
   module V1p1
     class JobApplicationsController < ApplicationController
-      before_action :authenticate_request, only: %i[job_offers show_job_offer accept_hire_offer show_job_contracts]
+      before_action :authenticate_request,
+                    only: %i[job_offers show_job_offer accept_hire_offer show_job_contracts show_contract]
 
       def job_offers
         @job_offers = current_user.job_applications.where('hire = ?', true)
@@ -45,6 +46,24 @@ module Api
             @job_contracts += job.job_applications.by_contract_status(status)
           end
         end
+      end
+
+      def show_contract
+        @is_employee = current_user.role == 'employee'
+        @contract = JobApplication.find_by(id: params[:id])
+        if @is_employee
+          @job_contract = current_user.job_applications.find_by(id: params[:id])
+        else
+          @job_contract = current_user.jobs.find_by(id: @contract.job_id)&.job_applications&.find_by(id: @contract.id)
+          unless @job_contract
+            @error = 'You are not authorized for this job contract'
+            render :error, status: :unprocessable_entity
+          end
+        end
+        return if @job_contract
+
+        @error = 'Job contract not found'
+        render :error, status: :not_found
       end
 
       private
