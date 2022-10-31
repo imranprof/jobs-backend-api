@@ -65,6 +65,12 @@ module Api
       def job_contract_end
         @is_employee = current_user.role == 'employee'
         @contract = JobApplication.find_by(id: job_contract_param[:id])
+
+        @recipient = if @is_employee
+                       @contract.job.employer
+                     else
+                       @contract.user
+                     end
         @job_contract = if @is_employee
                           current_user.job_applications.find_by(id: job_contract_param[:id])
                         else
@@ -72,7 +78,9 @@ module Api
                         end
 
         if @job_contract&.update(job_contract_param)
-          # JobMailer.contract_end_notification_mail(@job_offer).deliver_now
+          if @job_contract.contract_status == 'Closed'
+            JobMailer.contract_end_notification_mail(@job_contract, current_user, @recipient).deliver_now
+          end
           head :ok
         else
           @error = 'Failed to change contract status or you are not authorized'
