@@ -7,7 +7,11 @@ json.job_contracts @job_contracts do |contract|
   json.job_type contract.pay_type
   if @is_employee
     json.name "#{contract.job.employer.first_name} #{contract.job.employer.last_name}"
+    json.feedback contract.employer_feedback
+    json.rating contract.employer_rating
   else
     json.name "#{contract.user.first_name} #{contract.user.last_name}"
+    json.feedback contract.employee_feedback
+    json.rating contract.employee_rating
   end
 end
