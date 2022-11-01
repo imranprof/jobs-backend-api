@@ -5,6 +5,7 @@ json.contract_details do
   json.contract_title @job_contract.job.title
   json.job_type @job_contract.pay_type
   json.contract_budget @job_contract.hire_rate[0]
+  json.contract_status @job_contract.contract_status == 'Closed'
   if @is_employee
     json.name "#{@job_contract.job.employer.first_name} #{@job_contract.job.employer.last_name}"
     json.avatar request.base_url.concat(url_for(@job_contract.job.employer.user_profile.avatar))
