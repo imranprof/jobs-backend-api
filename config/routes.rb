@@ -39,6 +39,7 @@ Rails.application.routes.draw do
         collection do
           post 'job_contracts', to: 'job_applications#show_job_contracts'
           patch 'end_contract', to: 'job_applications#job_contract_end'
+          patch 'feedback', to: 'job_applications#give_feedback_and_rating'
           get 'job_contract/:id', to: 'job_applications#show_contract'
         end
       end
