@@ -3,6 +3,7 @@
 json.contract_details do
   json.id @job_contract.id
   json.contract_title @job_contract.job.title
+  json.contract_description @job_contract.job.description
   json.job_type @job_contract.pay_type
   json.contract_budget @job_contract.hire_rate[0]
   json.contract_status @job_contract.contract_status == 'Closed'
