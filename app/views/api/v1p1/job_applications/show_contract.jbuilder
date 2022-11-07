@@ -10,15 +10,15 @@ json.contract_details do
   if @is_employee
     json.name "#{@job_contract.job.employer.first_name} #{@job_contract.job.employer.last_name}"
     json.avatar request.base_url.concat(url_for(@job_contract.job.employer.user_profile.avatar))
-    json.feedback @job_contract.employee_feedback
-    json.rating @job_contract.employee_rating
+    json.self_feedback @job_contract.employee_feedback
+    json.self_rating @job_contract.employee_rating
     json.get_feedback @job_contract.employer_feedback
     json.get_rating @job_contract.employer_rating
   else
     json.name "#{@job_contract.user.first_name} #{@job_contract.user.last_name}"
     json.avatar request.base_url.concat(url_for(@job_contract.user.user_profile.avatar))
-    json.feedback @job_contract.employer_feedback
-    json.rating @job_contract.employer_rating
+    json.self_feedback @job_contract.employer_feedback
+    json.self_rating @job_contract.employer_rating
     json.get_feedback @job_contract.employee_feedback
     json.get_rating @job_contract.employee_rating
   end
