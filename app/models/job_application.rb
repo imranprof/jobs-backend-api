@@ -1,6 +1,7 @@
 class JobApplication < ApplicationRecord
   belongs_to :user
   belongs_to :job
+  has_many :time_sheets, dependent: :destroy
 
   after_create :send_notification_to_employer
 
