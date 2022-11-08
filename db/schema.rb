@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_17_151916) do
+ActiveRecord::Schema.define(version: 2022_10_31_134517) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -130,6 +130,11 @@ ActiveRecord::Schema.define(version: 2022_10_17_151916) do
     t.string "pay_type"
     t.integer "hire_rate", default: [], array: true
     t.boolean "hire_confirmation"
+    t.integer "contract_status", default: 0
+    t.string "employee_feedback"
+    t.string "employer_feedback"
+    t.decimal "employee_rating", precision: 3, scale: 2
+    t.decimal "employer_rating", precision: 3, scale: 2
     t.index ["job_id"], name: "index_job_applications_on_job_id"
     t.index ["user_id"], name: "index_job_applications_on_user_id"
   end
