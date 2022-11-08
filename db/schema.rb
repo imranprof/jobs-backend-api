@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_17_151916) do
+ActiveRecord::Schema.define(version: 2022_11_08_122154) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -130,6 +130,11 @@ ActiveRecord::Schema.define(version: 2022_10_17_151916) do
     t.string "pay_type"
     t.integer "hire_rate", default: [], array: true
     t.boolean "hire_confirmation"
+    t.integer "contract_status", default: 0
+    t.string "employee_feedback"
+    t.string "employer_feedback"
+    t.decimal "employee_rating", precision: 3, scale: 2
+    t.decimal "employer_rating", precision: 3, scale: 2
     t.index ["job_id"], name: "index_job_applications_on_job_id"
     t.index ["user_id"], name: "index_job_applications_on_user_id"
   end
@@ -196,6 +201,17 @@ ActiveRecord::Schema.define(version: 2022_10_17_151916) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_profile_id", null: false
     t.index ["user_profile_id"], name: "index_social_links_on_user_profile_id"
+  end
+
+  create_table "time_sheets", force: :cascade do |t|
+    t.date "start_date"
+    t.date "end_date"
+    t.text "work_description"
+    t.integer "work_hours"
+    t.bigint "job_application_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["job_application_id"], name: "index_time_sheets_on_job_application_id"
   end
 
   create_table "user_contacts", force: :cascade do |t|
@@ -284,6 +300,7 @@ ActiveRecord::Schema.define(version: 2022_10_17_151916) do
   add_foreign_key "messages", "users", column: "sender_id"
   add_foreign_key "projects", "users"
   add_foreign_key "social_links", "user_profiles"
+  add_foreign_key "time_sheets", "job_applications"
   add_foreign_key "user_contacts", "users"
   add_foreign_key "user_contacts", "users", column: "messenger_id"
   add_foreign_key "user_profiles", "users"
