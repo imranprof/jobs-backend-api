@@ -47,7 +47,7 @@ Rails.application.routes.draw do
       resources :job_contracts do
         collection do
           post 'working_details', to: 'job_contracts#add_working_details'
-          patch 'time_sheets', to: 'job_contracts#show_time_sheets'
+          get 'time_sheets', to: 'job_contracts#show_time_sheets'
         end
       end
 
