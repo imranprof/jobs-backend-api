@@ -18,9 +18,9 @@ module Api
       end
 
       def show_time_sheets
-        contract_id = working_details_param[:job_application_id]
+        contract_id = params[:contract_id]
         @application = JobApplication.find_by(id: contract_id)
-        @contract = current_user.jobs.find_by(id: @application.job_id)&.job_applications&.find_by(id: contract_id)
+        @contract = current_user.jobs.find_by(id: @application&.job_id)&.job_applications&.find_by(id: contract_id)
         @contract = current_user.job_applications&.find_by(id: contract_id) if @contract.nil?
 
         unless @contract
