@@ -36,7 +36,7 @@ class User < ApplicationRecord
   has_many :applied_jobs, through: :job_applications, source: :job
   has_many :sent_messages, class_name: 'Message', foreign_key: 'sender_id', dependent: :destroy
   has_many :received_messages, class_name: 'Message', foreign_key: 'recipient_id'
-  has_many :time_sheets, through: :job_applications
+  # has_many :time_sheets, through: :job_applications
   accepts_nested_attributes_for :user_profile, :features, :users_skills, :projects, :blogs, :education_histories,
                                 :work_histories, reject_if: :all_blank, allow_destroy: true
 
