@@ -4,7 +4,7 @@ module Api
   module V1p1
     class JobContractsController < ApplicationController
 
-      before_action :authenticate_request, only: %i[add_working_details show_time_sheets]
+      before_action :authenticate_request, only: %i[add_working_details show_time_sheets update_working_details]
 
       def add_working_details
         contract_id = working_details_param[:job_application_id]
@@ -16,6 +16,23 @@ module Api
         end
         head :created
       end
+
+      def update_working_details
+        @time_sheet = current_user.time_sheets.find_by(id: working_details_param[:id])
+        start_date = working_details_param[:start_date]
+        end_date = working_details_param[:end_date]
+        work_description = working_details_param[:work_description]
+        work_hours = working_details_param[:work_hours]
+
+        if @time_sheet&.update_columns(start_date: start_date, end_date: end_date, work_description: work_description, work_hours: work_hours)
+          render :show_time_sheet, status: :ok
+        else
+          @error = 'Failed to update time sheet'
+          render :error, status: :unprocessable_entity
+        end
+      end
+
+      def show_time_sheet; end
 
       def show_time_sheets
         contract_id = params[:contract_id]
