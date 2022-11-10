@@ -4,7 +4,7 @@ module Api
   module V1p1
     class JobContractsController < ApplicationController
 
-      before_action :authenticate_request, only: %i[add_working_details show_time_sheets update_working_details]
+      before_action :authenticate_request, only: %i[add_working_details show_time_sheets update_working_details destroy_time_sheet]
 
       def add_working_details
         contract_id = working_details_param[:job_application_id]
@@ -30,6 +30,17 @@ module Api
           @error = 'Failed to update time sheet'
           render :error, status: :unprocessable_entity
         end
+      end
+
+      def destroy_time_sheet
+        @time_sheet = current_user.time_sheets.find_by(id: working_details_param[:id])
+        unless @time_sheet
+          @error = 'Failed to delete time sheet'
+          render :error, status: :unprocessable_entity and return
+        end
+
+        @time_sheet.destroy
+        head :no_content
       end
 
       def show_time_sheet; end
