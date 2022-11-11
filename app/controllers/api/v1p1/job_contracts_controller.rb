@@ -18,7 +18,15 @@ module Api
       end
 
       def update_working_details
-        @time_sheet = current_user.time_sheets.find_by(id: working_details_param[:id])
+        @time_sheet = TimeSheet.find_by(id: working_details_param[:id])
+        @contract = @time_sheet&.contract
+        @user_contract = current_user.job_applications&.find_by(id: @contract&.id)
+
+        unless @user_contract
+          @error = 'You are not authorize to update time sheet or not found'
+          render :error, status: :unprocessable_entity and return
+        end
+
         start_date = working_details_param[:start_date]
         end_date = working_details_param[:end_date]
         work_description = working_details_param[:work_description]
@@ -33,7 +41,15 @@ module Api
       end
 
       def destroy_time_sheet
-        @time_sheet = current_user.time_sheets.find_by(id: working_details_param[:id])
+        @time_sheet = TimeSheet.find_by(id: working_details_param[:id])
+        @contract = @time_sheet&.contract
+        @user_contract = current_user.job_applications&.find_by(id: @contract&.id)
+
+        unless @user_contract
+          @error = 'You are not authorize to delete this or not found'
+          render :error, status: :unprocessable_entity and return
+        end
+
         unless @time_sheet
           @error = 'Failed to delete time sheet'
           render :error, status: :unprocessable_entity and return
