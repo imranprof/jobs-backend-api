@@ -31,8 +31,9 @@ module Api
         end_date = working_details_param[:end_date]
         work_description = working_details_param[:work_description]
         work_hours = working_details_param[:work_hours]
+        work_minutes = working_details_param[:work_minutes]
 
-        if @time_sheet&.update_columns(start_date: start_date, end_date: end_date, work_description: work_description, work_hours: work_hours)
+        if @time_sheet&.update_columns(start_date: start_date, end_date: end_date, work_description: work_description, work_hours: work_hours, work_minutes: work_minutes)
           render :show_time_sheet, status: :ok
         else
           @error = 'Failed to update time sheet'
@@ -78,7 +79,7 @@ module Api
       private
 
       def working_details_param
-        params.require(:job_contract).permit(%i[id start_date end_date work_description work_hours job_application_id])
+        params.require(:job_contract).permit(%i[id start_date end_date work_description work_hours work_minutes job_application_id])
 
       end
 

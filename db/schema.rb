@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_09_145327) do
+ActiveRecord::Schema.define(version: 2022_11_15_130928) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -207,10 +207,11 @@ ActiveRecord::Schema.define(version: 2022_11_09_145327) do
     t.date "start_date"
     t.date "end_date"
     t.text "work_description"
-    t.decimal "work_hours", precision: 4, scale: 2
+    t.integer "work_hours"
     t.bigint "job_application_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "work_minutes"
     t.index ["job_application_id"], name: "index_time_sheets_on_job_application_id"
   end
 
