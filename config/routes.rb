@@ -44,6 +44,15 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :job_contracts do
+        collection do
+          post 'time_sheet', to: 'job_contracts#add_working_details'
+          patch 'time_sheet', to: 'job_contracts#update_working_details'
+          delete 'time_sheet', to: 'job_contracts#destroy_time_sheet'
+          get 'time_sheets', to: 'job_contracts#show_time_sheets'
+        end
+      end
+
       resources :messages, only: %i[index create] do
         collection do
           post 'send_message', to: 'messages#send_message'

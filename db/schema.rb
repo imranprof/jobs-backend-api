@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_31_134517) do
+ActiveRecord::Schema.define(version: 2022_11_15_130928) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -203,6 +203,18 @@ ActiveRecord::Schema.define(version: 2022_10_31_134517) do
     t.index ["user_profile_id"], name: "index_social_links_on_user_profile_id"
   end
 
+  create_table "time_sheets", force: :cascade do |t|
+    t.date "start_date"
+    t.date "end_date"
+    t.text "work_description"
+    t.integer "work_hours"
+    t.bigint "job_application_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "work_minutes"
+    t.index ["job_application_id"], name: "index_time_sheets_on_job_application_id"
+  end
+
   create_table "user_contacts", force: :cascade do |t|
     t.string "name", null: false
     t.string "phone_number", null: false
@@ -289,6 +301,7 @@ ActiveRecord::Schema.define(version: 2022_10_31_134517) do
   add_foreign_key "messages", "users", column: "sender_id"
   add_foreign_key "projects", "users"
   add_foreign_key "social_links", "user_profiles"
+  add_foreign_key "time_sheets", "job_applications"
   add_foreign_key "user_contacts", "users"
   add_foreign_key "user_contacts", "users", column: "messenger_id"
   add_foreign_key "user_profiles", "users"
