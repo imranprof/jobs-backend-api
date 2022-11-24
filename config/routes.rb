@@ -14,6 +14,7 @@ Rails.application.routes.draw do
         post 'contact', to: 'profiles#create_contact'
         get 'search', to: 'profiles#search'
         get ':profile_slug', to: 'profiles#show'
+        get 'resume/:profile_slug', to: 'profiles#resume'
       end
 
       resources :jobs, only: %i[index create] do

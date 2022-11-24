@@ -9,6 +9,12 @@
 # https://github.com/mileszs/wicked_pdf/blob/master/README.md
 
 WickedPdf.config = {
+  :page_size => "Letter",
+  :dpi => 100,
+  :margin => {:top                => 0,
+              :bottom             => 0,
+              :left               => 0,
+              :right              => 0},
   # Path to the wkhtmltopdf executable: This usually isn't needed if using
   # one of the wkhtmltopdf-binary family of gems.
   # exe_path: '/usr/local/bin/wkhtmltopdf',

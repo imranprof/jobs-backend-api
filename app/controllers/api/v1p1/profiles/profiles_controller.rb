@@ -44,18 +44,7 @@ module Api
         def show
           @user = UserProfile.find_by(slug: params[:profile_slug])&.user
 
-          respond_to do |format|
-            format.json do
-              render json: { error: 'User is not found' }, status: :not_found unless @user
-            end
-
-            format.html
-            format.pdf do
-              html = render_to_string(template: 'resume/resume')
-              pdf = WickedPdf.new.pdf_from_string(html)
-              send_data pdf, filename: "#{params[:profile_slug]}.pdf"
-            end
-          end
+          render json: { error: 'User is not found' }, status: :not_found unless @user
         end
 
         def update
@@ -75,6 +64,26 @@ module Api
             render json: { message: 'Message has been sent successfully.' }, status: :created
           else
             render json: { message: 'Sorry, something wrong' }
+          end
+        end
+
+        def resume
+          @user = UserProfile.find_by(slug: params[:profile_slug])&.user
+          @profile = @user&.user_profile
+          @skills = @user&.skills
+          @education_histories = @user&.education_histories
+          @work_histories = @user&.work_histories
+          @contact = @user&.user_contacts
+          @social_links = @profile&.social_link
+          @avatar = url_for(@user&.user_profile.avatar)
+
+          respond_to do |format|
+            format.html
+            format.pdf do
+              html = render_to_string(template: 'resume/resume')
+              pdf = WickedPdf.new.pdf_from_string(html)
+              send_data pdf, filename: "#{params[:profile_slug]}.pdf"
+            end
           end
         end
 

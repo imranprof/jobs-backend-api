@@ -2,12 +2,87 @@
 <html>
 <head>
   <meta charset='utf-8'/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+</style>
+
 <body>
-<div id="header">
-  <h1>hello <%= @user.first_name %></h1>
-</div>
-<div id="content">
+
+<div>
+  <div style="display: -webkit-box; display: -webkit-flex; height: 1300px; background-color: #fdfefe; font-family: 'Lato', sans-serif" >
+    <div style="width: 25%; background-color: #253141; color: #fdfefe; padding: 20px 20px 20px 40px; margin: 0 0 -15px -7px;">
+
+      <div style="padding-left: 25px;">
+        <img src="<%=@avatar %>" width="180" height="180" style="border-radius: 50%;">
+      </div>
+
+      <div>
+        <h1>Contact</h1>
+        <h3><i class="fa-solid fa-mobile-screen-button" style="font-size: 24px; margin-right: 10px"></i> <%= @user.phone %></h3>
+        <h3><i class="fa-regular fa-envelope" style="font-size: 24px; margin-right: 10px"></i> <%= @user.email %></h3>
+        <h3>
+          <%= link_to "https://facebook.com/#{@social_links.facebook}", style: 'color: #fff; font-size: 24px; text-decoration: none' do %>
+            <i class="fa-brands fa-facebook" style="margin-right: 10px"></i> <span style="font-size: 20px"><%= @social_links.facebook %></span>
+          <% end %>
+        </h3>
+        <h3>
+          <%= link_to "https://github.com/#{@social_links.github}", style: 'color: #fff; font-size: 24px; text-decoration: none' do %>
+            <i class="fa-brands fa-github" style="margin-right: 10px"></i> <span style="font-size: 20px"><%=@social_links.github %></span>
+          <% end %>
+        </h3>
+        <h3>
+          <%= link_to "https://linkedin.com/in/#{@social_links.linkedin}", style: 'color: #fff; font-size: 24px; text-decoration: none' do %>
+            <i class="fa-brands fa-linkedin" style="margin-right: 10px"></i> <span style="font-size: 20px"><%=@social_links.linkedin %></span>
+          <% end %>
+        </h3>
+      </div>
+      <div style="margin-top: 40px">
+        <h1>Skills</h1>
+        <% @skills.each do |skill| %>
+          <h3><%= skill.title %></h3>
+        <% end %>
+      </div>
+    </div>
+
+    <div style="width: 60%; margin-top: 35px; margin-left: 40px;">
+      <div>
+        <h1 style="font-size: 50px; color: #253141; letter-spacing: 1px; font-weight: 400; margin-bottom: 0">
+          <span style="font-weight: bold"><%= @user.first_name %></span> <%= @user.last_name %>
+        </h1>
+        <h3 style="font-size: 24px; color: #253141; letter-spacing: 2px; margin-top: 5px"><%= @profile.designation %></h3>
+        <p><%= @profile.bio %></p>
+      </div>
+
+      <div style="width: 15%; border: 1px solid #253141; margin-top: 40px; margin-bottom: 40px"></div>
+
+      <div>
+        <h1 style="color: #253141">Experience</h1>
+        <% @work_histories.first(2).each do |experience| %>
+          <div>
+            <h2 style="margin-bottom: 0"><%= experience.company_name %></h2>
+            <p style="margin-top: 5px"><%= experience.start_date.strftime("%B, %Y") %> - <%= experience.end_date.strftime("%B, %Y") %></p>
+            <p><%= experience.description %></p>
+          </div>
+        <% end %>
+      </div>
+      <div style="width: 15%; border: 1px solid #253141; margin-top: 40px; margin-bottom: 40px"></div>
+      <div>
+        <h1 style="color: #253141">Education</h1>
+        <% @education_histories.first(2).each do |education| %>
+          <div>
+            <h2 style="margin-bottom: 0"><%= education.institution %></h2>
+            <p style="margin-top: 5px"><%= education.start_date.strftime("%B, %Y") %> - <%= education.end_date.strftime("%B, %Y") %></p>
+            <p><%= education.description %></p>
+          </div>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+
   <%= yield %>
 </div>
 </body>
