@@ -74,15 +74,28 @@ module Api
         end
 
         @time_sheets = @contract.time_sheets
+        @time_sheets = @contract.time_sheets.requested if current_user.role == 'employer'
+      end
+
+      def send_timesheet_to_employer
+        timesheet_ids = timesheet_param[:timesheet_ids]
+
+        @time_sheets  = []
+        timesheet_ids.each do |id|
+          time_sheet = TimeSheet.find_by(id: id)
+          head :accepted if time_sheet&.update_columns(status: :requested)
+        end
       end
 
       private
 
-      def working_details_param
-        params.require(:job_contract).permit(%i[id start_date end_date work_description work_hours work_minutes job_application_id])
-
+      def timesheet_param
+        params.require(:job_contract).permit(timesheet_ids: [])
       end
 
+      def working_details_param
+        params.require(:job_contract).permit(%i[id start_date end_date work_description work_hours work_minutes job_application_id])
+      end
 
     end
   end
