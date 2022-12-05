@@ -4,7 +4,7 @@ module Api
   module V1p1
     class JobContractsController < ApplicationController
 
-      before_action :authenticate_request, only: %i[add_working_details show_time_sheets update_working_details destroy_time_sheet]
+      before_action :authenticate_request, only: %i[add_working_details show_time_sheets update_working_details destroy_time_sheet send_timesheet_to_employer]
 
       def add_working_details
         contract_id = working_details_param[:job_application_id]
@@ -78,16 +78,25 @@ module Api
       end
 
       def send_timesheet_to_employer
+        @job_application = JobApplication.find_by(id: job_contract_param[:id])
         timesheet_ids = timesheet_param[:timesheet_ids]
+        @is_employee = current_user.role == 'employee'
 
         @time_sheets  = []
-        timesheet_ids.each do |id|
-          time_sheet = TimeSheet.find_by(id: id)
-          head :accepted if time_sheet&.update_columns(status: :requested)
+        if @is_employee
+          timesheet_ids.each do |id|
+            time_sheet = TimeSheet.find_by(id: id)
+            head :accepted if time_sheet&.update_columns(status: :requested)
+          end
+          TimesheetMailer.send_work_timesheet_to_employer(@job_application).deliver_now
         end
       end
 
       private
+
+      def job_contract_param
+        params.require(:job_contract).permit(%i[id])
+      end
 
       def timesheet_param
         params.require(:job_contract).permit(timesheet_ids: [])
