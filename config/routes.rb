@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :users
   post :sign_in, to: 'authentication#sign_in'
   delete :sign_out, to: 'authentication#sign_out'
+  post :linkedin_login, to: 'social_auth#linkedin_auth'
 
   namespace :api do
     namespace :v1p1 do
