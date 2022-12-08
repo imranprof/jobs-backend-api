@@ -52,6 +52,7 @@ Rails.application.routes.draw do
           delete 'time_sheet', to: 'job_contracts#destroy_time_sheet'
           get 'time_sheets', to: 'job_contracts#show_time_sheets'
           post 'time_sheets', to: 'job_contracts#send_timesheet_to_employer'
+          patch 'time_sheets', to: 'job_contracts#approved_rejected_weekly_timesheet'
         end
       end
 
