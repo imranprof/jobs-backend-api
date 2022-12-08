@@ -7,4 +7,5 @@ json.time_sheets @time_sheets do |task|
   json.work_description task.work_description
   json.work_hours task.work_hours
   json.work_minutes task.work_minutes
+  json.status task.status
 end
