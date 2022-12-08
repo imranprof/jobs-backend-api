@@ -1,5 +1,8 @@
 <p>Hello, <%= @job_application.job.employer.first_name + ' ' + @job_application.job.employer.last_name %></p>
 
-<p><%= @job_application.user.first_name + ' ' + @job_application.user.last_name %> sent you a weekly work timesheet for your <%= @job_application.job.title %> job. Click the following link to check out more: </p>
+<p>
+  <%= @job_application.user.first_name + ' ' + @job_application.user.last_name %> sent you a weekly work timesheet for your <%= @job_application.job.title %> job.
+  Click the link to check out more: <%= link_to 'Weekly timesheet', "http://localhost:8080/job/contract/#{@job_application.id}" %>
+</p>
 
 <p>Thanks!</p>
