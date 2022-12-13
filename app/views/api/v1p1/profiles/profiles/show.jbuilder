@@ -108,6 +108,7 @@ json.contacts_data do
   json.designation @user.user_profile.designation
   json.description @user.user_profile.contact_info
   json.phone @user.phone || '+88-01112223334'
+  json.location @user.user_profile.location || 'New York, United States'
 end
 
 json.all_categories Category.all do |category|

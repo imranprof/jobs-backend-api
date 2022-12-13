@@ -10,7 +10,7 @@ FactoryBot.define do
     end
     identity_number { '202219998' }
     gender { 0 }
-    religion { 0 }
+    location { 'New York, United States' }
     designation { 'Your designation here. E.g. \'Certified Supply Chain Professional\'' }
     contact_info { 'I\'d love to hear from you! Send me a question and i\'ll be in touch you as soon as possible' }
     contact_email { user.email }
