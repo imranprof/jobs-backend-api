@@ -2,7 +2,7 @@
 
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show update destroy]
-  before_action :authenticate_request, only: %i[show update destroy]
+  before_action :authenticate_request, only: %i[show update destroy update_role]
 
   def index
     @users = User.all
@@ -38,6 +38,24 @@ class UsersController < ApplicationController
     end
   end
 
+  def update_role
+    @user = User.find_by(id: update_role_params[:id])
+    if @user&.modify_role == false
+      render json: { message: 'you are not authorize for update role' }, status: :unauthorized
+    else
+      is_modify = update_role_params[:modify_role]
+      render json: @user&.errors, status: :unprocessable_entity and return if is_modify.nil?
+
+      if is_modify && @user&.update_columns(modify_role: false, role: 'employer')
+        head :ok
+      elsif @user&.update_columns(modify_role: false)
+        head :ok
+      else
+        render json: @user&.errors, status: :unprocessable_entity
+      end
+    end
+  end
+
   private
 
   def set_user
@@ -47,4 +65,9 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :role, :company_name)
   end
+
+  def update_role_params
+    params.require(:user).permit(:id, :modify_role)
+  end
+
 end

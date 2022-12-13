@@ -6,6 +6,7 @@ class SocialAuthController < ApplicationController
     user = User.find_or_create_by(email: auth_user_params[:email]) do |u|
       u.first_name = auth_user_params[:first_name]
       u.last_name = auth_user_params[:last_name]
+      u.modify_role = true
       u.password = SecureRandom.hex(12)
     end
 
@@ -33,5 +34,5 @@ class SocialAuthController < ApplicationController
   def auth_user_params
     params.require(:social_auth).permit(:first_name, :last_name, :email, :role, :company_name)
   end
-  
+
 end
