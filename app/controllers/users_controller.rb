@@ -39,7 +39,8 @@ class UsersController < ApplicationController
   end
 
   def update_role
-    @user = User.find_by(id: update_role_params[:id])
+    profile = UserProfile.find_by(id: update_role_params[:profile_id])
+    @user = profile&.user
     if @user&.modify_role == false
       render json: { message: 'you are not authorize for update role' }, status: :unauthorized
     else
@@ -67,7 +68,7 @@ class UsersController < ApplicationController
   end
 
   def update_role_params
-    params.require(:user).permit(:id, :modify_role)
+    params.require(:user).permit(:profile_id, :modify_role)
   end
 
 end
