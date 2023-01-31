@@ -69,6 +69,7 @@ GEM
     bootsnap (1.9.3)
       msgpack (~> 1.0)
     builder (3.2.4)
+    chronic (0.10.2)
     concurrent-ruby (1.1.9)
     crass (1.0.6)
     debug (1.4.0)
@@ -200,6 +201,11 @@ GEM
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    whenever (1.0.0)
+      chronic (>= 0.6.3)
+    wicked_pdf (2.6.3)
+      activesupport
+    wkhtmltopdf-binary (0.12.6.5)
     zeitwerk (2.5.1)
 
 PLATFORMS
@@ -224,6 +230,9 @@ DEPENDENCIES
   simple_command
   simplecov
   tzinfo-data
+  whenever
+  wicked_pdf
+  wkhtmltopdf-binary
 
 RUBY VERSION
    ruby 3.0.3p157

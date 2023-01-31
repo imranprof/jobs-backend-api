@@ -7,6 +7,7 @@ module Api
         before_action :authenticate_request, only: %i[update]
         before_action :edit_permission?, only: %i[show]
         before_action :messenger_id, only: %i[create_contact]
+        include ActionController::MimeResponds
 
         def index
           @profiles = UserProfile.joins(:user).where('users.role != ?', 'employer')
@@ -42,6 +43,7 @@ module Api
 
         def show
           @user = UserProfile.find_by(slug: params[:profile_slug])&.user
+
           render json: { error: 'User is not found' }, status: :not_found unless @user
         end
 
@@ -62,6 +64,26 @@ module Api
             render json: { message: 'Message has been sent successfully.' }, status: :created
           else
             render json: { message: 'Sorry, something wrong' }
+          end
+        end
+
+        def resume
+          @user = UserProfile.find_by(slug: params[:profile_slug])&.user
+          @profile = @user&.user_profile
+          @skills = @user&.skills
+          @education_histories = @user&.education_histories
+          @work_histories = @user&.work_histories
+          @contact = @user&.user_contacts
+          @social_links = @profile&.social_link
+          @avatar = url_for(@user&.user_profile.avatar)
+
+          respond_to do |format|
+            format.html
+            format.pdf do
+              html = render_to_string(template: 'resume/resume')
+              pdf = WickedPdf.new.pdf_from_string(html)
+              send_data pdf, filename: "#{params[:profile_slug]}.pdf"
+            end
           end
         end
 

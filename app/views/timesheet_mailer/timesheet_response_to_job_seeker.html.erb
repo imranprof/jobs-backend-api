@@ -1,0 +1,8 @@
+<p>Hello, <%= @job_application.user.first_name + ' ' + @job_application.user.last_name %></p>
+
+<p>
+  <%= @job_application.job.employer.first_name + ' ' + @job_application.job.employer.last_name %> <%= @status == "approved" ? "approved" : "rejected" %>
+  your current weekly timesheet for <%= @job_application.job.title %> job.
+</p>
+
+<p>Thanks!</p>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_21_141311) do
+ActiveRecord::Schema.define(version: 2022_12_12_130719) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -126,6 +126,15 @@ ActiveRecord::Schema.define(version: 2022_09_21_141311) do
     t.boolean "selection"
     t.text "cover_letter", null: false
     t.integer "bid_rate"
+    t.boolean "hire"
+    t.string "pay_type"
+    t.integer "hire_rate", default: [], array: true
+    t.boolean "hire_confirmation"
+    t.integer "contract_status", default: 0
+    t.string "employee_feedback"
+    t.string "employer_feedback"
+    t.decimal "employee_rating", precision: 3, scale: 2
+    t.decimal "employer_rating", precision: 3, scale: 2
     t.index ["job_id"], name: "index_job_applications_on_job_id"
     t.index ["user_id"], name: "index_job_applications_on_user_id"
   end
@@ -140,6 +149,7 @@ ActiveRecord::Schema.define(version: 2022_09_21_141311) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "pay_type"
     t.integer "budget", default: [], array: true
+    t.integer "status", default: 0
     t.index ["user_id"], name: "index_jobs_on_user_id"
   end
 
@@ -193,6 +203,19 @@ ActiveRecord::Schema.define(version: 2022_09_21_141311) do
     t.index ["user_profile_id"], name: "index_social_links_on_user_profile_id"
   end
 
+  create_table "time_sheets", force: :cascade do |t|
+    t.date "start_date"
+    t.date "end_date"
+    t.text "work_description"
+    t.integer "work_hours"
+    t.bigint "job_application_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "work_minutes"
+    t.integer "status", default: 0
+    t.index ["job_application_id"], name: "index_time_sheets_on_job_application_id"
+  end
+
   create_table "user_contacts", force: :cascade do |t|
     t.string "name", null: false
     t.string "phone_number", null: false
@@ -236,6 +259,7 @@ ActiveRecord::Schema.define(version: 2022_09_21_141311) do
     t.string "phone"
     t.string "role", default: "employee", null: false
     t.string "company_name"
+    t.boolean "modify_role", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["token"], name: "index_users_on_token"
   end
@@ -279,6 +303,7 @@ ActiveRecord::Schema.define(version: 2022_09_21_141311) do
   add_foreign_key "messages", "users", column: "sender_id"
   add_foreign_key "projects", "users"
   add_foreign_key "social_links", "user_profiles"
+  add_foreign_key "time_sheets", "job_applications"
   add_foreign_key "user_contacts", "users"
   add_foreign_key "user_contacts", "users", column: "messenger_id"
   add_foreign_key "user_profiles", "users"

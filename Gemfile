@@ -17,7 +17,10 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 gem 'bootsnap', require: false
 gem 'rack-cors'
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
 
+gem 'whenever', require: false
 gem "letter_opener", :group => :development
 
 group :development, :test do
