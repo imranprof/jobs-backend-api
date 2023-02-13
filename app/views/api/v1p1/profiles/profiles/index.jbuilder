@@ -7,8 +7,8 @@ json.profiles @profiles do |profile|
   json.image request.base_url.concat(url_for(profile.avatar))
   json.designation profile.designation
   json.hourly_rate profile.hourly_rate || 20
-  json.rating nil
-  json.completed_jobs 0
+  json.rating profile.count_rating
+  json.completed_jobs profile.user.job_applications.Closed.rated.count || 0
   json.skills profile.user.users_skills.map { |users_skill|
     users_skill.skill.title
   }.compact
