@@ -15,6 +15,7 @@ json.profile do
   json.first_name @user.first_name
   json.last_name @user.last_name
   json.headline @user.user_profile.headline
+  json.hourly_rate @user.user_profile.hourly_rate || 20
   json.title @user.user_profile.title
   json.bio @user.user_profile.bio
   json.avatar request.base_url.concat(url_for(@user.user_profile.avatar))
