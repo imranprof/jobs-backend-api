@@ -15,6 +15,14 @@ class UserProfile < ApplicationRecord
     errors.add(:avatar, 'no file added') unless avatar.attached?
   end
 
+  def count_rating
+    total_rating = user.job_applications.Closed.rated.sum(:employer_rating).to_f
+    total_job = user.job_applications.Closed.rated.count
+    return 0 if total_job.zero? || total_rating.zero?
+
+    (total_rating / total_job)
+  end
+
   def set_slug
     slug = "#{user.first_name}-#{user.last_name}".downcase
     slug += "-#{user_id}" if UserProfile.find_by(slug: slug)
