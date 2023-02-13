@@ -9,6 +9,7 @@ json.edit_permission @edit_permission
 json.role @user.role
 
 json.company_name @user.company_name
+json.modify_permission @user.modify_role
 
 json.profile do
   json.id @user.user_profile.id
