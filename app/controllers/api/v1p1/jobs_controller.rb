@@ -8,7 +8,7 @@ module Api
       before_action :set_job, only: %i[show]
 
       def index
-        @jobs = Job.Published
+        @jobs = Job.published
       end
 
       def show; end
@@ -26,7 +26,7 @@ module Api
         @job = current_user.jobs.find_by(id: job_params[:id].to_i)
         if @job&.update(job_params)
           render :show, status: :ok
-          if @job.Canceled?
+          if @job.canceled?
             @job.applicants.each do |applicant|
               JobMailer.job_status_canceled_notification(@job, applicant).deliver_now
             end
