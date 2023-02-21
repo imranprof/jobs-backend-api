@@ -16,8 +16,8 @@ class UserProfile < ApplicationRecord
   end
 
   def count_rating
-    total_rating = user.job_applications.Closed.rated.sum(:employer_rating).to_f
-    total_job = user.job_applications.Closed.rated.count
+    total_rating = user.job_applications.closed.rated.sum(:employer_rating).to_f
+    total_job = user.job_applications.closed.rated.count
     return 0 if total_job.zero? || total_rating.zero?
 
     (total_rating / total_job)
