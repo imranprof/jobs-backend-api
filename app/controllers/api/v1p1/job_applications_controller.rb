@@ -70,7 +70,7 @@ module Api
           @recipient = value[1]
         end
         if @job_contract&.update(job_contract_param)
-          if @job_contract.contract_status == 'closed'
+          if @job_contract.closed?
             JobMailer.contract_end_notification_mail(@job_contract, current_user, @recipient).deliver_now
           end
           head :ok
