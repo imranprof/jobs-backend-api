@@ -110,7 +110,7 @@ module Api
 
         def user_profile_attributes
           [:id, :headline, :title, :bio, :identity_number, :gender,
-           :religion, :designation, :contact_info, :contact_email,
+           :location, :designation, :contact_info, :contact_email, :hourly_rate,
            :expertises, { avatar: :data },
            { social_link_attributes:
                %i[id facebook github linkedin _destroy] }]

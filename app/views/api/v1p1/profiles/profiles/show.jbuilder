@@ -16,6 +16,7 @@ json.profile do
   json.first_name @user.first_name
   json.last_name @user.last_name
   json.headline @user.user_profile.headline
+  json.hourly_rate @user.user_profile.hourly_rate || 20
   json.title @user.user_profile.title
   json.bio @user.user_profile.bio
   json.avatar request.base_url.concat(url_for(@user.user_profile.avatar))
@@ -109,6 +110,7 @@ json.contacts_data do
   json.designation @user.user_profile.designation
   json.description @user.user_profile.contact_info
   json.phone @user.phone || '+88-01112223334'
+  json.location @user.user_profile.location || 'New York, United States'
 end
 
 json.all_categories Category.all do |category|
