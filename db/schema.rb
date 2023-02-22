@@ -234,7 +234,7 @@ ActiveRecord::Schema.define(version: 2022_12_12_130719) do
     t.text "bio", null: false
     t.string "identity_number", null: false
     t.integer "gender", null: false
-    t.integer "religion", null: false
+    t.string "location", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

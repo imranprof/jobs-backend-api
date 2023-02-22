@@ -27,7 +27,7 @@ module Api
           render :error, status: :not_found and return
         end
         if @job_offer&.update(job_offer_param)
-          @job_offer&.update_columns(contract_status: :InProgress) if @job_offer.hire_confirmation?
+          @job_offer&.update_columns(contract_status: :in_progress) if @job_offer.hire_confirmation?
           JobApplicationMailer.hire_response_notification_email(@job_offer).deliver_now
           head :ok
         else
@@ -70,7 +70,7 @@ module Api
           @recipient = value[1]
         end
         if @job_contract&.update(job_contract_param)
-          if @job_contract.contract_status == 'Closed'
+          if @job_contract.closed?
             JobMailer.contract_end_notification_mail(@job_contract, current_user, @recipient).deliver_now
           end
           head :ok
