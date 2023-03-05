@@ -38,7 +38,7 @@ You will get `created 201` status along with newly registered email as the respo
 ```bash
 curl --location --request POST 'http://localhost:3000/sign_in' \
 --header 'Content-Type: application/json' \
---data-raw '{ "email": "test@example.com", "password": "password" }'
+--data-raw '{ "email": "test1@example.com", "password": "password" }'
 ```
 You will get `ok 200` status along with signed in `user_email` and `auth_token` as the response. You will need this `auth_token` to verify your identity.
 
